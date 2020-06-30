@@ -1,0 +1,28 @@
+◆HTML メール送信
+HTMLでメールを送る「mailto:」の使い方と注意点まとめ
+https://webliker.info/99276/
+
+◆Java でメールを送信する - SMTP & Email Sending API 2019-07-01
+http://blog.smtps.jp/entry/2019/07/01/124359
+
+◆STMLの基本
+https://baremetal.jp/blog/2017/12/08/468/ 
+
+◆メール認証機能
+https://qiita.com/isotai/items/f810493dd192e0597f3a 
+
+◆Javaからメール送信
+https://qiita.com/rubytomato@github/items/b106ff8011bcad60bce2 
+
+◆思考の葉
+＊ＰＨＰ 新規登録機能
+https://noumenon-th.net/programming/2016/02/26/registration/ 
+
+◆現場で使えるJAVA
+https://books.google.co.jp/books?id=wbfV_-pJklUC&pg=PA280&lpg=PA280&dq=java+メール+url+登録&source=bl&ots=hGeK0M38LP&sig=ACfU3U35qQuxFUMPjBMm7dR1ogjzMTst-Q&hl=ja&sa=X&ved=2ahUKEwjY1Lvb-qHqAhVYM94KHbAKBQ4Q6AEwDXoECAgQAQ#v=onepage&q=java%20メール%20url%20登録&f=false 
+
+◆Google Cloud メールＡＰＩ
+https://cloud.google.com/appengine/docs/standard/java/mail/sending-mail-with-mail-api?hl=ja
+
+＊同SampleCode
+https://github.com/GoogleCloudPlatform/java-docs-samples/blob/2e5996c68440134a79f1511c57529fa5cf987628/appengine-java8/mail/src/main/java/com/example/appengine/mail/MailServlet.java

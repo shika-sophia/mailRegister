@@ -1,0 +1,381 @@
+
+◆Java でメールを送信する - SMTP & Email Sending API 2019-07-01
+http://blog.smtps.jp/entry/2019/07/01/124359
+
+SMTPを使ったメール送信について
+標準ライブラリだけで実装します。SMTPサーバのアドレスは指定されたものに置き換えてください。まず必要なライブラリを読み込みます。
+
+import java.io.UnsupportedEncodingException;
+import java.util.Properties;
+
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.Authenticator;
+import javax.mail.PasswordAuthentication;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+続いて認証情報を提供するクラスを作ります。これは Authenticator を継承します。この認証情報は先ほど作成したAPIユーザ名とAPIキーになります。
+
+class myAuth extends Authenticator {
+  protected PasswordAuthentication getPasswordAuthentication(){
+    String apiUser = "api@smtps.jp";
+    String apiKey  = "YOUR_API_KEY";
+    return new PasswordAuthentication(apiUser, apiKey);
+  }
+}
+次にメール送信を行うクラスを定義します。このmainメソッドを実行することとします。
+
+public class SendMail {
+  public static String smtpHost = "sandbox.smtps.jp";
+  public static String smtpPort = "10025";
+  public static String smtpAuth = "true";
+  
+  public static void main(String[] args){
+    smtp();
+  }
+  private static void smtp() {
+  }
+}
+この smtp メソッドの内容は、まずプロパティを使ってSMTPサーバを定義します。さらにネットワークセッションを作る際に、先ほどの認証情報を呼び出します。
+
+private static void smtp() {
+  Properties objPrp=new Properties();
+  objPrp.put("mail.smtp.host", SendMail.smtpHost);
+  objPrp.put("mail.host", SendMail.smtpHost);
+  objPrp.put("mail.smtp.port", SendMail.smtpPort);
+  objPrp.put("mail.smtp.auth", SendMail.smtpAuth);
+  // メールセッションを確立
+  Session session = Session.getDefaultInstance(objPrp, new myAuth());
+  // 省略
+}
+そしてメールを組み立てます。メールの送信は Transport.send(msg); で行います。メール送信はネットワーク状態などでエラーが出る可能性があるので、必ず try/catch を使います。
+
+// 送信メッセージを生成
+MimeMessage msg = new MimeMessage(session);
+try {
+  String to = "to@smtps.jp";
+  String fromName = "Mailer";
+  String fromAddress = "info@smtps.jp";
+  String subject = "テストメール from Customers Mail Cloud";
+  String body = "こんにちは";
+
+  msg.setRecipients(Message.RecipientType.TO, to);
+  InternetAddress objFrm= new InternetAddress(fromAddress, fromName);
+  msg.setFrom(objFrm);
+  msg.setSubject(subject,"UTF-8");
+  msg.setText(body,"UTF-8");
+  Transport.send(msg);
+} catch (UnsupportedEncodingException e) {
+  e.printStackTrace();
+} catch (MessagingException e) {
+  e.printStackTrace();
+}      
+これでSMTP経由でのメール送信が完了します。
+
+API経由でのメール送信について
+APIサーバについて
+APIサーバのエンドポイントURLは契約しているプランによって異なりますのでご注意ください。
+
+プラン名	エンドポイントURL
+無料トライアル	https://sandbox.smtps.jp/api/v2/emails/send.json
+Standardプラン	https://te.smtps.jp/api/v2/emails/send.json
+Proプラン	https://SUBDOMAIN.smtps.jp/api/v2/emails/send.json
+SUBDOMAINは、サービス利用開始時に申請いただいたものです
+
+クラスを作成する
+APIにはJSONを送信します。そのためのクラスを用意します。JSON全体を表すのがMailJsonクラスです。
+
+package sendmail;
+
+public class MailJson {
+  public String api_user;
+  public String api_key;
+  public String subject;
+  public String text;
+  public MailAddress from;
+  public MailAddress[] to;
+}
+メールアドレス部分だけを表すのがMailAddressクラスです。
+
+package sendmail;
+
+public class MailAddress {
+  public String name;
+  public String address;
+}
+変数を設定する
+変数はSMTPサーバ利用時とほぼ同等、SMTPサーバの代わりにエンドポイントURLを指定します。
+
+String toName = "User";
+String toAddress = "to@smtps.jp";
+String fromName = "Mailer";
+String fromAddress = "info@smtps.jp";
+String subject = "テストメール from Customers Mail Cloud";
+String text = "こんにちは";
+String apiUser = "api@smtps.jp";
+String apiKey  = "YOUR_API_KEY";
+String url = "https://sandbox.smtps.jp/api/v2/emails/send.json";
+配信内容は先ほどのクラスを使って定義します。
+
+// JSONの組み立て
+MailJson obj = new MailJson();
+obj.api_user = apiUser;
+obj.api_key = apiKey;
+obj.subject = subject;
+obj.text = text;
+
+// 送信元
+MailAddress from = new MailAddress();
+from.name = fromName;
+from.address = fromAddress;
+obj.from = from;
+
+// 送信先
+MailAddress to = new MailAddress();
+to.name = toName;
+to.address = toAddress;
+obj.to = new MailAddress[1];
+obj.to[0] = to;
+そしてクラスをJacksonを使ってJSON文字列にします。
+
+ObjectMapper mapper = new ObjectMapper();
+String json = mapper.writeValueAsString(obj);
+JSONの内容については 共通仕様 | Customers Mail Cloud を参照してください。
+
+送信を行う
+ではAPIサーバのエンドポイントURLと配信情報のパラメータを使ってメール送信を行います。メール送信APIはPOSTメソッドを使います。HTTPアクセスは org.apache.http を使います。JSON文字列にするJacksonも読み込みます。
+
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.util.EntityUtils;
+import org.apache.http.entity.StringEntity;
+// Jackson
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+HTTPメソッドとヘッダーの定義をし、HTTPリクエストオブジェクトを作成します。
+
+StringEntity entity = new StringEntity(json, "UTF-8");
+HttpPost httpPost = new HttpPost(url);
+httpPost.setHeader("Content-type", "application/json; charset=UTF-8");
+httpPost.setEntity(entity);
+そしてHTTPリクエストを実行します。
+
+CloseableHttpClient client = HttpClients.createDefault();
+CloseableHttpResponse response = client.execute(httpPost);
+System.out.println(EntityUtils.toString(response.getEntity()));
+// 閉じる
+client.close();
+送信が成功すると、下記のようにメールIDが返ってきます。
+
+{"id":"\u003C314195997.17022.1560845073906@mta02.sandbox.smtps.jp\u003E"}
+エラーがあると、下記のようにエラー内容が返ってきます。
+
+{"errors":[{"code":"02-001","field":"text","message":"text is required."}]}
+まとめ
+サーバ上の制限によってSMTPが使えない場合でもHTTP経由でメール配信が行えますので、APIをぜひ使ってみてください。今回はJavaを使いましたが、汎用的なHTTPアクセスを行っていますので、他のプログラミング言語でも簡単に実装できるでしょう。
+
+さらに詳しい使い方についてはEmail Sending APIを参照してください。
+
+
+◆Email Sending API
+https://smtps.jp/docs/apiv2/es/index.html#email-sending-api
+
+Email Sending API
+一括メール、または、単一メールを送信することができるAPIを提供します。
+
+宛先アドレスのリストとメール本文をパラメータに指定して一括メールを送信する仕組みを提供します。 差込み文字を使用して、宛先アドレスごとに内容の異なるメールを生成することもできます。
+
+また、1通のメールを簡単に送信することができるAPIを提供します。 アプリケーションを配置しているISPやクラウドの制限によりSMTPによる外部通信ができない場合、 このAPIを利用することでメールを送信することができます。
+
+バージョン
+POSTパラメータや応答メッセージのフォーマットはAPIのバージョンによって異なります。 利用するバージョンのAPI仕様を参照ください。
+
+現在のバージョンは２です。
+
+バージョン１のAPI仕様はこちらを参照ください。
+
+共通仕様
+このセクションでは、Email Sending API の共通仕様について説明します。
+
+項目	値
+プロトコル	HTTPS
+文字コード	UTF-8
+改行コード	LF
+接続先ホストとURL
+https://[hostname]/api/[version]/[resource]/[action].[format]
+
+[hostname]は、このAPIを提供するホスト名を表します。
+[version]は、APIバージョンを表します。v2 と v1 が指定できます。
+[resource]は、操作対象のリソースを表します。
+[action]は、操作を表します。
+[format]は、レスポンスメッセージのフォーマットを表します。json と xml が指定できます。
+Email Sending API は、SMTPと同様にメールサーバーが機能を提供します。
+サービスプランにより接続先ホストを以下の通り指定してください。
+
+sandbox
+無料トライアルでは、以下のエンドポイントに接続することができます。
+
+項目	値                 
+エンドポイントURL	https://sandbox.smtps.jp/api/v2/emails/send.json
+transactional-email
+Standardプランでは、以下のエンドポイントに接続することができます。
+
+項目	値                 
+エンドポイントURL	https://te.smtps.jp/api/v2/emails/send.json
+Proプランでは、以下のエンドポイントに接続することができます。
+
+項目	値                 
+エンドポイントURL	https://SUBDOMAIN.smtps.jp/api/v2/emails/send.json
+*) SUBDOMAINは、サービス利用開始時に申請頂いたドメイン名です。
+
+認証
+Email Sending API は、HTTPリクエストに含まれる api_user, api_key パラメータを使用した ユーザ認証を行います。APIユーザの登録方法については、ユーザガイドの「APIユーザ」 を参照ください。
+
+HTTPリクエスト
+このセクションでは、Email Sending API が受信するHTTPリクエストの仕様について説明します。
+
+メソッド
+Email Sending API は、POSTメソッドのみを受け付けます。
+
+ヘッダ
+Email Sending API は、以下のヘッダフィールドを参照します。
+
+ヘッダフィールド	説明
+Accept-Language	Email Sending APIが応答するメッセージの言語タイプを指定します。en または ja のいずれかを指定します。言語指定が無いまたは左記以外の言語を指定された場合、en で動作します。
+コンテンツタイプ
+通常は、application/x-www-form-urlencoded または application/json を指定します。 添付ファイル付きメールを送信する場合はファイルアップロードが必要となるため、multipart/form-data を指定します。
+
+パラメータ
+Email Sending API は全てのHTTPリクエストに、ユーザ認証を行うための api_user, api_key, を含める必要があり、かつ、URLごとに定義されたパラメータを送信する必要があります。
+
+このドキュメントは以下フォーマットに従い、パラメータの説明を記述します。
+
+パラメータ	必須	データ型	説明
+api_user	Yes	ASCII	ユーザ認証に使用するID
+api_key	Yes	ASCII	ユーザ認証に使用するシークレットキー
+パラメータ：POSTするパラメータの名前。
+必須：このパラメータが必須である場合、Yes。
+データ型：パラメータ値のデータ型。（後述、データ型を参照）
+説明：このパラメータに関する説明。
+デフォルト値、入力値の範囲などの制限があるパラメータについては、説明欄に以下の書式で記載します。
+
+デフォルト：(デフォルト値)
+範囲：min=(最小値) / max=(最大値)
+制約：パラメータに関する制約の記述。例えば、start_date は end_date と等しいか過去日でなければならないなど。
+application/x-www-form-urlencoded (multipart/form-data) を指定する場合
+パラメータの名前・値のセットを作成して POST してください。
+
+application/json を指定する場合
+パラメータの名前をプロパティとした JSON を作成して POST してください。
+
+{
+  "api_user" : "smtp_api_user@example.com",
+  "api_key" : "a29yZWhhcGFzc3dvcmRkZXN1",
+  "to" : [
+    {
+      "name" : "Personal Name1",
+      "address" : "user1@example.com"
+    },
+    {
+      "name" : "Personal Name2",
+      "address" : "user2@example.com"
+    }
+  ],
+  "from" : {
+    "name" : "カスタマーサポート",
+    "address" : "support@example.co.jp"
+  },
+  "subject" : "◯◯ショップ：会員登録完了通知",
+  "text" : "((#name#)) 様  この度は、....."
+}
+データ型
+Email Sending API は以下の仕様に従い、データ型を取扱います。
+
+データ型	説明
+UTF-8	ASCIIを含むマルチバイト文字を表します。
+ASCII	印刷可能なASCII文字を表します。
+INTEGER	-2147483648 から 2147483647の範囲の数値を表します。
+DATE	YYYY-MM-DD 形式で日付を表します。DD=99である場合、指定月の末日と解釈します。
+TIME	HH:mm 形式で、時および分を24時間表記で表します。このAPIでは秒をリクエストパラメータとして取り扱う処理はありません。
+DATETIME	YYYY-MM-DD HH:mm 形式で年月日および時分を表します。
+BOOLEAN	true または false のいずれかを表します。
+HTTPレスポンス
+このセクションでは、Email Sending APIが送信するHTTPレスポンスの仕様について説明します。
+
+ステータスコード
+Email Sending APIは、以下のステータスコードを応答します。
+
+コード	メッセージ	説明
+200	OK	リクエストは正常に処理されました。
+400	Bad Request	不正なパラメータがリクエストされたなどの理由により、リクエストは正常に処理されませんでした。
+401	Unauthorized	ユーザ認証に失敗しました。
+403	Forbidden	IP制限やアクセス制御により、ユーザからのリクエスト実行を拒否しました。
+404	Not Found	リクエストされたURLは存在しません。
+500	Internal Server Error	システム内部の問題により、リクエストを実行できませんでした。
+503	Service Unavailable	アクセス数の超過やサーバの過負荷により、リクエストを実行できませんでした。
+ヘッダ
+Email Sending APIは、URLで指定されたフォーマットに従い、JSON または、XMLフォーマットの メッセージを応答します。これらの応答メッセージのフォーマットは、HTTPレスポンスヘッダ Content-Type により判別します。
+
+Content-Type	説明
+application/json	JSONフォーマットのメッセージを応答します。
+application/xml	XMLフォーマットのメッセージを応答します。
+メッセージ
+Email Sending API は以下のメッセージを応答します。
+
+成功
+リクエストが成功した時に応答するメッセージについては、各API仕様の「レスポンス」を参照ください。
+
+エラー
+このメッセージは、リクエストが失敗した時に応答します。
+
+JSON
+
+{
+    "errors" : [
+        {
+            "code" : "01-004",
+            "field" : "api_user",
+            "message" : "api_user is required."
+        },
+        {
+            "code" : "01-004",
+            "field" : "api_key",
+            "message" : "api_key is required."
+        }
+    ]
+}
+XML
+
+<errors>
+    <error>
+        <code>01-004</code>
+        <field>api_user</field>
+        <message>api_user is required.</message>
+    </error>
+    <error>
+        <code>01-004</code>
+        <field>api_key</field>
+        <message>api_key is required.</message>
+    </error>
+</errors>
+エラーメッセージ
+Email Sending APIの共通エラーメッセージを以下に説明します。 共通エラーメッセージ以外にも、各APIごとに定義したエラーメッセージを応答することがあります。
+
+コード	メッセージ（en）	メッセージ(ja)
+01-001	System error was occurred. Please contact system administrator.	システムエラーが発生しました。システム管理者に連絡してください。
+01-002	HTTP Request which use GET Method is not permitted. Please use POST Method.	GETメソッドを使用したHTTPリクエストは許可していません。POSTメソッドを使用してください。
+01-004	{0} is required.	{0}は必須項目です。
+01-006	Connected IP does not allow to access API. Please confirm source IP setting.	接続IPはAPIにアクセスすることはできません。接続元IP設定を確認してください。
+01-009	Request data is invalid. Check the character code.	リクエストデータが不正です。文字コードを確認ください。
+セキュリティ
+このセクションでは、Email Sending API のセキュリティについて説明します。
+
+ユーザ認証
+Email Sending API は、HTTPリクエストに含まれる api_user, api_key パラメータを使用した ユーザ認証を行います。APIユーザの登録方法については、ユーザガイドの「APIユーザ」 を参照ください。
+
+Email Sending API は SMTP認証でユーザ認証するため、「SMTP」をチェックオンとする必要があります。
+

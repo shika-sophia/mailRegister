@@ -1,0 +1,146 @@
+﻿◆fakeSMTP HP
+ http://nilhcem.com/FakeSMTP/
+ 
+ 
+◆WindowsにFakeSMTPをインストールしてみた！
+FakeSMTP
+https://tech.cookbiz.co.jp/engineering-297
+クックビズ開発者ブログ
+クックビズ株式会社のテクノロジーやWEB担当者向け情報を配信していますFollow us on Twitter Follow us on Facebook Follow us on Instagram Follow us on LinkedIn Follow us on rssコンテンツへスキップホーム 採用情報
+WindowsにFakeSMTPをインストールしてみた！
+投稿者: 紺野速 | 2014年12月3日0件のコメント
+
+
+開発部の紺野です。あるサービスのテストでFakeSMTPを使うことになりました。
+インストールやダウンロードの参考になる日本語のサイトがなかったので、しぶしぶ本サイトを翻訳して調べてみました。
+結論から言うと、JVM1.6以上の実行環境を準備し、ダウンロードして解凍して出来たfakeSMTP-1.12.jarファイルをダブルクリックするだけで起動しました。
+※fakeSMTP-1.12.jarの-1.12のところは、ダウンロードしたバージョンによって異なると思われます。
+
+ 
+
+簡単だったから、誰も参考サイト作ってなかったのかな･･･orz
+せっかくなので備忘録として残しておきます。
+
+【動作環境】
+OS：Windows7
+Javaのバージョン：1.8.0_25
+
+【前提条件】
+JVMの1.6以上の実行環境があること
+
+【準備】
+・Javaのダウンロードはこちらから
+└ Java
+
+・Javaのインストール参考サイト
+└ JavaDrive
+
+・FakeSMTPはこちらから
+└ FakeSMTP
+
+【手順】
+1.最新のJavaの環境を準備する
+
+2.FakeSMTPをZIPでダウンロードする
+
+3.ダウロードしたフォルダを解凍し、任意の場所に移動する。
+
+4.ディレクトリの中のjarファイル(私の場合は、fakeSMTP-1.12.jar)をダブルクリックする。
+
+以上です。
+
+【メモ】
+FakeSMTPのサイトの一部を翻訳したメモです･･･（ほとんどGoogle翻訳がやりました)
+
+Requirements(必要条件)の部分
+FakeSMTP_Requirements
+You need Java JVM 1.6 or newer installed on your machine.If you are on a “Unix-like” machine (Mac, GNU/Linux, BSD…).You may have to be “root” to start the port 25.Otherwise, try another port >= 1024.
+
+Java JVM1.6以降がインストールされている必要があります。あなたが、Mac,GNU/Linux,BSDのようなUnix楽なマシンを使っている場合、rootをポート25で起動する必要があるかもしれません。そうでなければ、1024で試してみる必要があるかもしれません。
+
+Usage(使用法)の部分
+FakeSMTP_Usage
+The fakeSMTP.jar is auto-executable.If your desktop environment supports it,you can directly double click on the .jar file.Otherwise, run the following command:java -jar fakeSMTP.jar
+
+fakeSMTPは、自動で実行することができます。あなたのデスクトップ環境でjarファイル実行が可能ならば、fakeSMTP.jarをダブルクリックして実行する事ができます。そうでなければ、次のコマンドを実行してください。
+
+java -jar fakeSMTP.jar
+1
+java -jar fakeSMTP.jar
+ 
+
+If you want to specify the directory where emails will be saved when starting the application,you can use the -o argument:
+
+アプリケーションを起動するときにメールが保存されるディレクトリを指定したい場合は、引数に-oを使用して設定する事ができます。
+
+java -jar fakeSMTP.jar -o output_directory_name
+1
+java -jar fakeSMTP.jar -o output_directory_name
+ 
+
+著者プロフィール
+アバター
+紺野速
+環境構築やインフラ関係が苦手なエンジニア。知らないことが多すぎるので、日々コツコツ勉強中！
+最近書いた記事
+行ってよかった～♪PHPカンファレンス関西2015
+Event
+2015.06.02
+行ってよかった～♪PHPカンファレンス関西2015
+
+Engineering
+2015.05.29
+WindowsにCodeceptionをインストールする手順
+
+Engineering
+2014.12.03
+WindowsにFakeSMTPをインストールしてみた！
+
+WordPress
+2014.11.25
+Windows７環境下におけるVCCW導入の備忘録
+Share the knowledge!
+カテゴリー: Engineering タグ: FakeSMTP, Java, windows
+アバター
+紺野速 について
+環境構築やインフラ関係が苦手なエンジニア。知らないことが多すぎるので、日々コツコツ勉強中！
+
+紺野速 の投稿をすべて表示 →
+投稿ナビゲーション← Webディレクションを学ぶ前に知っておきたい企業Web担当者のこと（Web子の部屋 第3回）お金をかけずWantedlyでベストテン入りする、本当に簡単な方法 →
+コメントを残す
+メールアドレスが公開されることはありません。 * が付いている欄は必須項目です
+
+コメント
+
+名前 *
+
+メール *
+
+サイト
+
+ 新しいコメントをメールで通知
+
+ 新しい投稿をメールで受け取る
+
+検索:
+ 
+最近の投稿
+
+BacklogAPI Library for PHPを作りました
+composer installでPHP extension intlエラーが発生して死ぬ時の対策
+WordPressが嫌いというエンジニアにこそ読んで欲しい「エンジニアのためのWordPress開発入門」を執筆しました
+JSONExportにコントリビュートしました
+Yii1.1でFixtureを使ったユニットテストを作成する
+Codeceptionの文字化け直してコントリビューターになったよ
+Goのパッケージ管理glideを初めて使う時のハマリポイント
+RSS Feed
+
+RSS Feed
+
+ブログの更新をメールで通知
+
+メールアドレスを記入して設定すれば、更新情報をメールで受信できます。
+
+メールアドレス
+メールアドレス
+

@@ -1,0 +1,96 @@
+◆Command Pronpt
+
+C:\Users\MediWorks-03>ipconfig
+
+Windows IP Configuration
+
+
+Ethernet adapter イーサネット:
+
+   Media State . . . . . . . . . . . : Media disconnected
+   Connection-specific DNS Suffix  . :
+
+Wireless LAN adapter ローカル エリア接続* 5:
+
+   Media State . . . . . . . . . . . : Media disconnected
+   Connection-specific DNS Suffix  . :
+
+Wireless LAN adapter ローカル エリア接続* 4:
+
+   Media State . . . . . . . . . . . : Media disconnected
+   Connection-specific DNS Suffix  . :
+
+Ethernet adapter イーサネット 2:
+
+
+C:\Users\MediWorks-03>netstat -a
+
+Active Connections
+
+  Proto  Local Address          Foreign Address        State
+  TCP    0.0.0.0:135            MediWorks-02-PC:0      LISTENING
+  TCP    0.0.0.0:445            MediWorks-02-PC:0      LISTENING
+  TCP    0.0.0.0:902            MediWorks-02-PC:0      LISTENING
+  TCP    0.0.0.0:912            MediWorks-02-PC:0      LISTENING
+  TCP    0.0.0.0:2869           MediWorks-02-PC:0      LISTENING
+  TCP    0.0.0.0:3306           MediWorks-02-PC:0      LISTENING
+  TCP    0.0.0.0:5040           MediWorks-02-PC:0      LISTENING
+  TCP    0.0.0.0:20121          MediWorks-02-PC:0      LISTENING
+  TCP    0.0.0.0:33060          MediWorks-02-PC:0      LISTENING
+  TCP    0.0.0.0:49664          MediWorks-02-PC:0      LISTENING
+  TCP    0.0.0.0:49665          MediWorks-02-PC:0      LISTENING
+  TCP    0.0.0.0:49666          MediWorks-02-PC:0      LISTENING
+  TCP    0.0.0.0:49667          MediWorks-02-PC:0      LISTENING
+  TCP    0.0.0.0:49668          MediWorks-02-PC:0      LISTENING
+  TCP    0.0.0.0:49703          MediWorks-02-PC:0      LISTENING
+  TCP    127.0.0.1:12110        MediWorks-02-PC:0      LISTENING
+  TCP    127.0.0.1:12119        MediWorks-02-PC:0      LISTENING
+  TCP    127.0.0.1:12143        MediWorks-02-PC:0      LISTENING
+  TCP    127.0.0.1:12563        MediWorks-02-PC:0      LISTENING
+  TCP    127.0.0.1:12993        MediWorks-02-PC:0      LISTENING
+  TCP    127.0.0.1:12995        MediWorks-02-PC:0      LISTENING
+  TCP    127.0.0.1:20121        activation:51091       TIME_WAIT
+  TCP    127.0.0.1:20121        activation:51094       ESTABLISHED
+  TCP    127.0.0.1:27015        MediWorks-02-PC:0      LISTENING
+  TCP    127.0.0.1:27275        MediWorks-02-PC:0      LISTENING
+  TCP    127.0.0.1:49670        activation:49671       ESTABLISHED
+  TCP    127.0.0.1:49671        activation:49670       ESTABLISHED
+  TCP    127.0.0.1:49672        activation:49673       ESTABLISHED
+  TCP    127.0.0.1:49673        activation:49672       ESTABLISHED
+  TCP    127.0.0.1:49675        activation:49676       ESTABLISHED
+  TCP    127.0.0.1:49676        activation:49675       ESTABLISHED
+  TCP    127.0.0.1:49677        activation:49678       ESTABLISHED
+  TCP    127.0.0.1:49678        activation:49677       ESTABLISHED
+  TCP    127.0.0.1:49681        activation:49682       ESTABLISHED
+  TCP    127.0.0.1:49682        activation:49681       ESTABLISHED
+  TCP    127.0.0.1:49683        activation:49684       ESTABLISHED
+  TCP    127.0.0.1:49684        activation:49683       ESTABLISHED
+  TCP    127.0.0.1:49685        activation:49686       ESTABLISHED
+  TCP    127.0.0.1:49686        activation:49685       ESTABLISHED
+  TCP    127.0.0.1:49687        activation:49688       ESTABLISHED
+  TCP    127.0.0.1:49688        activation:49687       ESTABLISHED
+  TCP    127.0.0.1:49689        activation:49690       ESTABLISHED
+  TCP    127.0.0.1:49690        activation:49689       ESTABLISHED
+  TCP    127.0.0.1:49691        activation:49692       ESTABLISHED
+  TCP    127.0.0.1:49692        activation:49691       ESTABLISHED
+  TCP    127.0.0.1:49693        activation:49694       ESTABLISHED
+  TCP    127.0.0.1:49694        activation:49693       ESTABLISHED
+  TCP    127.0.0.1:49695        activation:49696       ESTABLISHED
+  TCP    127.0.0.1:49696        activation:49695       ESTABLISHED
+  TCP    127.0.0.1:49697        activation:49698       ESTABLISHED
+  TCP    127.0.0.1:49698        activation:49697       ESTABLISHED
+  TCP    127.0.0.1:49699        activation:49700       ESTABLISHED
+  TCP    127.0.0.1:49700        activation:49699       ESTABLISHED
+  TCP    127.0.0.1:49882        activation:49883       ESTABLISHED
+  TCP    127.0.0.1:49883        activation:49882       ESTABLISHED
+  TCP    127.0.0.1:51094        activation:20121       ESTABLISHED
+  TCP    192.168.1.16:139       MediWorks-02-PC:0      LISTENING
+  TCP    192.168.1.16:49718     40.90.189.152:https    ESTABLISHED
+  TCP    192.168.1.16:49731     prg16-010:http         ESTABLISHED
+  TCP    192.168.1.16:50437     172.67.75.139:https    ESTABLISHED
+  TCP    192.168.1.16:50438     a23-199-228-113:http   ESTABLISHED
+  TCP    192.168.1.16:50439     a23-199-228-113:https  ESTABLISHED
+  TCP    192.168.1.16:50504     download:http          CLOSE_WAIT
+  TCP    192.168.1.16:50507     download:https         CLOSE_WAIT
+  TCP    192.168.1.16:50964     TS-WXLA4B:microsoft-ds  CLOSE_WAIT
+

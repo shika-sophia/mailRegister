@@ -1,0 +1,91 @@
+◆Mail API でメールを送信する
+https://cloud.google.com/appengine/docs/standard/java/mail/sending-mail-with-mail-api?hl=ja
+https://github.com/GoogleCloudPlatform/java-docs-samples/blob/2e5996c68440134a79f1511c57529fa5cf987628/appengine-java8/mail/src/main/java/com/example/appengine/mail/MailServlet.java
+
+Java 用の Mail サービス API では、メール メッセージを送信する JavaMail（javax.mail）インターフェースがサポートされています。
+
+このソリューションは推奨されません。このページでは、App Engine サービスの使用方法を説明しますが、現在は別のサービスが優先されています。このサービスを使用するアプリは Java 8 ランタイム以外で実行できないため、Java 11 ランタイムへの移行前に、推奨されるソリューションにアップグレードする必要があります。
+始める前に
+送信者のメールアドレスを承認済み送信者として登録します。詳細については、メールを送信できるユーザーをご覧ください。
+
+メールを送信する
+メール メッセージを送信するには、App Engine SDK に含まれている JavaMail クラスを使用します。
+
+JavaMail セッションの作成時に SMTP サーバー構成を指定しないと、App Engine は Mail サービスを使用してメッセージを送信します。 または、サポートされているサードパーティのメール プロバイダ（Mailgun、Mailjet、SendGrid など）の SMTP 構成を追加します。
+
+メールを送信するには:
+
+JavaMail Session オブジェクトを使用してメッセージを作成します。
+
+MimeMessage オブジェクトを作成します。
+
+InternetAddress クラスを使用して、メッセージの送信者と受信者を設定します。
+
+MimeMessage オブジェクトで setFrom() メソッドを呼び出し、送信者を指定します。2 番目のパラメータに文字列として個人名を指定することもできます。
+
+受信者の種類とアドレスを addRecipient() メソッドに渡すことで、受信者を識別します。受信者のタイプは Message.RecipientType.TO、Message.RecipientType.CC、または Message.RecipientType.BCC です。
+
+メールアドレスが無効な場合、InternetAddress コンストラクタが AddressException を発生させます。
+
+返信先のアドレスを設定するには、setReplyTo() メソッドを使用します。
+
+MimeMessage オブジェクトでメソッドを呼び出して、メッセージの内容を作成します。setSubject() で件名を設定し、setText() で平文形式のメッセージ本文を設定します。
+
+メッセージを送信するには、Transport クラスの静的メソッド send() を使用します。
+
+Mail サービスでは、送信するメールに特定のヘッダーを使用できます。詳細については、使用可能なオプション ヘッダーをご覧ください。
+
+以下に、メールを送信するコードの例を示します。
+
+appengine-java8/mail/src/main/java/com/example/appengine/mail/MailServlet.javaGitHub で表示
+Properties props = new Properties();
+Session session = Session.getDefaultInstance(props, null);
+
+try {
+  Message msg = new MimeMessage(session);
+  msg.setFrom(new InternetAddress("admin@example.com", "Example.com Admin"));
+  msg.addRecipient(Message.RecipientType.TO,
+                   new InternetAddress("user@example.com", "Mr. User"));
+  msg.setSubject("Your Example.com account has been activated");
+  msg.setText("This is a test");
+  Transport.send(msg);
+} catch (AddressException e) {
+  // ...
+} catch (MessagingException e) {
+  // ...
+} catch (UnsupportedEncodingException e) {
+  // ...
+}
+
+Mail サービスの呼び出しは非同期で、すぐに制御を返します。Mail サービスは、受信者のメールサーバーに接続し、メッセージを送信するプロセスを管理します。メッセージの送信で問題が発生した場合や、メールサーバーがバウンス メッセージを返した場合、エラー メッセージが送信者に表示されます。
+
+マルチパート メッセージを送信する
+ファイルが添付されたメッセージや、プレーン テキストの本文と HTML メッセージの本文から構成されるメッセージは、マルチパート メッセージとして送信できます。
+
+マルチパート メッセージを送信するには:
+
+パートを格納する MimeMultipart オブジェクトを作成して、添付ファイルまたは別のメッセージ本文を格納する MimeBodyPart オブジェクトを作成し、それをコンテナに追加します。
+
+MimeMessage のコンテンツにコンテナを割り当てます。
+
+以下に、マルチパート メッセージを送信するコードの例を示します。
+
+appengine-java8/mail/src/main/java/com/example/appengine/mail/MailServlet.javaGitHub で表示
+String htmlBody = "";          // ...
+byte[] attachmentData = null;  // ...
+Multipart mp = new MimeMultipart();
+
+MimeBodyPart htmlPart = new MimeBodyPart();
+htmlPart.setContent(htmlBody, "text/html");
+mp.addBodyPart(htmlPart);
+
+MimeBodyPart attachment = new MimeBodyPart();
+InputStream attachmentDataStream = new ByteArrayInputStream(attachmentData);
+attachment.setFileName("manual.pdf");
+attachment.setContent(attachmentDataStream, "application/pdf");
+mp.addBodyPart(attachment);
+
+msg.setContent(mp);
+
+セキュリティ上の理由から、メッセージ部分と添付ファイルには許可されたタイプを使用してください。また、ファイル名の最後には、そのタイプで認識されている拡張子を付けてください。許可されるタイプとファイル名の拡張子の一覧については、添付ファイルを含むメールをご覧ください。
+
