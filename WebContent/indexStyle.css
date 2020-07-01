@@ -1,0 +1,60 @@
+@charset "UTF-8";
+/* StyleSheet for index.jsp and etc */
+
+body {
+
+  background-color: mistyrose;
+  background: radial-gradient(ellipse farthest-side at center, white ,mistyrose 65% ,pink);
+  font-family: "MS P明朝",serif;
+}
+
+h1 {
+    text-align: center;
+    text-shadow: thistle 2px 2px;
+    color: hotpink;
+    background-color: pink;
+    font-family: "MS P明朝",serif;
+    font-size: 24px
+}
+/* ==== div ==== */
+div#upper{
+    text-align: center;
+    width: 1000px;
+    height: 60px;
+}
+
+div#index {
+    width: 1000px;
+    height: 600px;
+}
+
+/* ==== table ==== */
+table {
+    table-layout: fixed;
+    font-size: medium;
+    font-family: "MS P明朝",serif;
+    line-height: 1em;
+    color: hotpink;
+
+    text-align: left;
+    text-indent: 1em;
+    width: 400px;
+    height: 400px;
+
+    border-collapse: separate;
+    background-color: lavenderblush;
+    border-width: 2px;
+    border-color: pink;
+    border-spacing: 2px;
+    border-radius: 10px;
+    border-style: ridge;
+}
+
+.buttan {
+    text-align: right;
+}
+
+a {
+    color: royalblue;
+    font-weight: bold;
+}
