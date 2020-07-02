@@ -22,12 +22,33 @@ Wireless LAN adapter ローカル エリア接続* 4:
 
 Ethernet adapter イーサネット 2:
 
+   Connection-specific DNS Suffix  . :
+   Link-local IPv6 Address . . . . . : fe80::acea:7314:924:d122%2
+   IPv4 Address. . . . . . . . . . . : 192.168.223.1
+   Subnet Mask . . . . . . . . . . . : 255.255.255.0
+   Default Gateway . . . . . . . . . :
+
+Wireless LAN adapter Wi-Fi:
+
+   Connection-specific DNS Suffix  . : flets-west.jp
+   IPv6 Address. . . . . . . . . . . : 240b:250:38c0:3100:fc04:dee9:a655:d65f
+   Temporary IPv6 Address. . . . . . : 240b:250:38c0:3100:3085:f6dd:8082:d997
+   Link-local IPv6 Address . . . . . : fe80::fc04:dee9:a655:d65f%21
+   IPv4 Address. . . . . . . . . . . : 192.168.1.16
+   Subnet Mask . . . . . . . . . . . : 255.255.255.0
+   Default Gateway . . . . . . . . . : fe80::124b:46ff:fee7:d797%21
+                                       192.168.1.1
+
+C:\Users\MediWorks-03>192.168.223.1
+'192.168.223.1' is not recognized as an internal or external command,
+operable program or batch file.
 
 C:\Users\MediWorks-03>netstat -a
 
 Active Connections
 
   Proto  Local Address          Foreign Address        State
+  TCP    0.0.0.0:25             MediWorks-02-PC:0      LISTENING
   TCP    0.0.0.0:135            MediWorks-02-PC:0      LISTENING
   TCP    0.0.0.0:445            MediWorks-02-PC:0      LISTENING
   TCP    0.0.0.0:902            MediWorks-02-PC:0      LISTENING
@@ -35,6 +56,7 @@ Active Connections
   TCP    0.0.0.0:2869           MediWorks-02-PC:0      LISTENING
   TCP    0.0.0.0:3306           MediWorks-02-PC:0      LISTENING
   TCP    0.0.0.0:5040           MediWorks-02-PC:0      LISTENING
+  TCP    0.0.0.0:7680           MediWorks-02-PC:0      LISTENING
   TCP    0.0.0.0:20121          MediWorks-02-PC:0      LISTENING
   TCP    0.0.0.0:33060          MediWorks-02-PC:0      LISTENING
   TCP    0.0.0.0:49664          MediWorks-02-PC:0      LISTENING
@@ -49,8 +71,8 @@ Active Connections
   TCP    127.0.0.1:12563        MediWorks-02-PC:0      LISTENING
   TCP    127.0.0.1:12993        MediWorks-02-PC:0      LISTENING
   TCP    127.0.0.1:12995        MediWorks-02-PC:0      LISTENING
-  TCP    127.0.0.1:20121        activation:51091       TIME_WAIT
-  TCP    127.0.0.1:20121        activation:51094       ESTABLISHED
+  TCP    127.0.0.1:20121        activation:57826       TIME_WAIT
+  TCP    127.0.0.1:20121        activation:57845       FIN_WAIT_2
   TCP    127.0.0.1:27015        MediWorks-02-PC:0      LISTENING
   TCP    127.0.0.1:27275        MediWorks-02-PC:0      LISTENING
   TCP    127.0.0.1:49670        activation:49671       ESTABLISHED
@@ -83,14 +105,105 @@ Active Connections
   TCP    127.0.0.1:49700        activation:49699       ESTABLISHED
   TCP    127.0.0.1:49882        activation:49883       ESTABLISHED
   TCP    127.0.0.1:49883        activation:49882       ESTABLISHED
-  TCP    127.0.0.1:51094        activation:20121       ESTABLISHED
+  TCP    127.0.0.1:57845        activation:20121       CLOSE_WAIT
   TCP    192.168.1.16:139       MediWorks-02-PC:0      LISTENING
-  TCP    192.168.1.16:49718     40.90.189.152:https    ESTABLISHED
-  TCP    192.168.1.16:49731     prg16-010:http         ESTABLISHED
-  TCP    192.168.1.16:50437     172.67.75.139:https    ESTABLISHED
-  TCP    192.168.1.16:50438     a23-199-228-113:http   ESTABLISHED
-  TCP    192.168.1.16:50439     a23-199-228-113:https  ESTABLISHED
-  TCP    192.168.1.16:50504     download:http          CLOSE_WAIT
-  TCP    192.168.1.16:50507     download:https         CLOSE_WAIT
-  TCP    192.168.1.16:50964     TS-WXLA4B:microsoft-ds  CLOSE_WAIT
-
+  TCP    192.168.1.16:54849     52.139.250.253:https   ESTABLISHED
+  TCP    192.168.1.16:55090     104.26.13.6:https      ESTABLISHED
+  TCP    192.168.1.16:55091     a23-197-188-113:http   ESTABLISHED
+  TCP    192.168.1.16:55092     a23-197-188-113:https  ESTABLISHED
+  TCP    192.168.1.16:55151     download:http          CLOSE_WAIT
+  TCP    192.168.1.16:55153     download:https         CLOSE_WAIT
+  TCP    192.168.1.16:56593     prg16-009:http         ESTABLISHED
+  TCP    192.168.1.16:57127     TS-WXLA4B:microsoft-ds  ESTABLISHED
+  TCP    192.168.1.16:57758     lb-140-82-113-25-iad:https  ESTABLISHED
+  TCP    192.168.1.16:57822     a23-218-95-8:http      TIME_WAIT
+  TCP    192.168.1.16:57837     52.109.120.95:https    ESTABLISHED
+  TCP    192.168.1.16:57844     ntt:http               ESTABLISHED
+  TCP    192.168.1.16:57846     69.94.68.37:https      ESTABLISHED
+  TCP    192.168.1.16:57847     r-57-41-234-77:http    FIN_WAIT_1
+  TCP    192.168.223.1:139      MediWorks-02-PC:0      LISTENING
+  TCP    192.168.223.1:9373     MediWorks-02-PC:0      LISTENING
+  TCP    [::]:25                MediWorks-02-PC:0      LISTENING
+  TCP    [::]:135               MediWorks-02-PC:0      LISTENING
+  TCP    [::]:445               MediWorks-02-PC:0      LISTENING
+  TCP    [::]:2869              MediWorks-02-PC:0      LISTENING
+  TCP    [::]:3306              MediWorks-02-PC:0      LISTENING
+  TCP    [::]:7680              MediWorks-02-PC:0      LISTENING
+  TCP    [::]:20121             MediWorks-02-PC:0      LISTENING
+  TCP    [::]:33060             MediWorks-02-PC:0      LISTENING
+  TCP    [::]:49664             MediWorks-02-PC:0      LISTENING
+  TCP    [::]:49665             MediWorks-02-PC:0      LISTENING
+  TCP    [::]:49666             MediWorks-02-PC:0      LISTENING
+  TCP    [::]:49667             MediWorks-02-PC:0      LISTENING
+  TCP    [::]:49668             MediWorks-02-PC:0      LISTENING
+  TCP    [::]:49703             MediWorks-02-PC:0      LISTENING
+  TCP    [::1]:12110            MediWorks-02-PC:0      LISTENING
+  TCP    [::1]:12119            MediWorks-02-PC:0      LISTENING
+  TCP    [::1]:12143            MediWorks-02-PC:0      LISTENING
+  TCP    [::1]:12563            MediWorks-02-PC:0      LISTENING
+  TCP    [::1]:12993            MediWorks-02-PC:0      LISTENING
+  TCP    [::1]:12995            MediWorks-02-PC:0      LISTENING
+  TCP    [::1]:27275            MediWorks-02-PC:0      LISTENING
+  TCP    [::1]:49858            MediWorks-02-PC:0      LISTENING
+  TCP    [240b:250:38c0:3100:3085:f6dd:8082:d997]:55081  g2600-140b-3000-0187-0000-0000-0000-0057:https  CLOSE_WAIT
+  TCP    [240b:250:38c0:3100:3085:f6dd:8082:d997]:55175  g2600-140b-3000-0291-0000-0000-0000-4106:https  CLOSE_WAIT
+  TCP    [240b:250:38c0:3100:3085:f6dd:8082:d997]:55176  g2600-140b-3000-0291-0000-0000-0000-4106:https  CLOSE_WAIT
+  TCP    [240b:250:38c0:3100:3085:f6dd:8082:d997]:55177  g2600-140b-3000-0291-0000-0000-0000-4106:https  CLOSE_WAIT
+  TCP    [240b:250:38c0:3100:3085:f6dd:8082:d997]:55178  g2600-140b-3000-0190-0000-0000-0000-3114:http  CLOSE_WAIT
+  TCP    [240b:250:38c0:3100:3085:f6dd:8082:d997]:55179  g2600-140b-3000-0190-0000-0000-0000-3114:http  CLOSE_WAIT
+  TCP    [240b:250:38c0:3100:3085:f6dd:8082:d997]:55180  g2600-140b-3000-0000-0000-0000-17c7-3982:https  CLOSE_WAIT
+  TCP    [240b:250:38c0:3100:3085:f6dd:8082:d997]:55181  g2600-140b-3000-0190-0000-0000-0000-3114:http  CLOSE_WAIT
+  TCP    [240b:250:38c0:3100:3085:f6dd:8082:d997]:55182  g2600-140b-3000-0190-0000-0000-0000-3114:http  CLOSE_WAIT
+  TCP    [240b:250:38c0:3100:3085:f6dd:8082:d997]:55183  g2600-140b-3000-0190-0000-0000-0000-3114:http  CLOSE_WAIT
+  TCP    [240b:250:38c0:3100:3085:f6dd:8082:d997]:55184  g2600-140b-3000-0190-0000-0000-0000-3114:http  CLOSE_WAIT
+  TCP    [240b:250:38c0:3100:3085:f6dd:8082:d997]:55288  tl-in-xbc:5228         ESTABLISHED
+  TCP    [240b:250:38c0:3100:3085:f6dd:8082:d997]:57759  nrt12s13-in-x04:https  ESTABLISHED
+  TCP    [240b:250:38c0:3100:3085:f6dd:8082:d997]:57761  kix05s02-in-x0e:https  ESTABLISHED
+  TCP    [240b:250:38c0:3100:3085:f6dd:8082:d997]:57765  kix05s02-in-x0e:https  ESTABLISHED
+  UDP    0.0.0.0:500            *:*
+  UDP    0.0.0.0:3702           *:*
+  UDP    0.0.0.0:3702           *:*
+  UDP    0.0.0.0:4500           *:*
+  UDP    0.0.0.0:5050           *:*
+  UDP    0.0.0.0:5353           *:*
+  UDP    0.0.0.0:5353           *:*
+  UDP    0.0.0.0:5353           *:*
+  UDP    0.0.0.0:5353           *:*
+  UDP    0.0.0.0:5353           *:*
+  UDP    0.0.0.0:5355           *:*
+  UDP    0.0.0.0:9473           *:*
+  UDP    0.0.0.0:52675          *:*
+  UDP    0.0.0.0:57930          *:*
+  UDP    0.0.0.0:60597          *:*
+  UDP    0.0.0.0:65304          *:*
+  UDP    127.0.0.1:1900         *:*
+  UDP    127.0.0.1:50742        *:*
+  UDP    127.0.0.1:55818        *:*
+  UDP    127.0.0.1:55819        *:*
+  UDP    127.0.0.1:55820        *:*
+  UDP    192.168.1.16:137       *:*
+  UDP    192.168.1.16:138       *:*
+  UDP    192.168.1.16:1900      *:*
+  UDP    192.168.1.16:50741     *:*
+  UDP    192.168.223.1:137      *:*
+  UDP    192.168.223.1:138      *:*
+  UDP    192.168.223.1:1900     *:*
+  UDP    192.168.223.1:64065    *:*
+  UDP    [::]:500               *:*
+  UDP    [::]:3702              *:*
+  UDP    [::]:3702              *:*
+  UDP    [::]:4500              *:*
+  UDP    [::]:5353              *:*
+  UDP    [::]:5353              *:*
+  UDP    [::]:5353              *:*
+  UDP    [::]:5355              *:*
+  UDP    [::]:60598             *:*
+  UDP    [::]:65304             *:*
+  UDP    [::1]:1900             *:*
+  UDP    [::1]:64064            *:*
+  UDP    [fe80::acea:7314:924:d122%2]:1900  *:*
+  UDP    [fe80::acea:7314:924:d122%2]:64062  *:*
+  UDP    [fe80::fc04:dee9:a655:d65f%21]:1900  *:*
+  UDP    [fe80::fc04:dee9:a655:d65f%21]:64063  *:*
+  
+  
