@@ -1,0 +1,128 @@
+
+◆Apache入門 Apacheインストール
+＊設定ファイル(http.conf)の初期設定を行う
+https://www.adminweb.jp/apache/install/index2.html
+
+Apache に関する設定は http.conf と呼ばれるファイルに設定します。 Apache をインストールしたあとで、インストールした場所や使用するポート番号に合わせて設定ファイルを変更しておく必要があります。ここでは Apache のインストール直後に行う初期設定について解説します。
+
+目次
+
+インストールしたディレクトリを修正する
+ポート番号を設定する
+ServerNameを設定する
+
+ 
+インストールしたディレクトリを修正する
+Apache の設定ファイルである http.conf ファイルは「(インストールしたディレクトリ)\Apache24\conf\」ディレクトリに入っています。
+
+インストールしたディレクトリを修正する(1)
+
+修正を行う前の http.conf ファイルをコピーして念のためにバックアップとして保存しておいて下さい(不要であれば省略して下さい)。
+
+それでは http.conf ファイルを編集します。http.conf ファイルはテキストファイルなのでテキストエディタで開いて下さい。(下記では Sublime Text というテキストエディタを使用しています。参考：「Sublime Textの使い方」)。
+
+インストールしたディレクトリを修正する(2
+
+まず最初にファイル内で「ServerRoot」を検索して下さい。次のような記載が見つかります。
+
+#
+# ServerRoot: The top of the directory tree under which the server's
+# configuration, error, and log files are kept.
+#
+# Do not add a slash at the end of the directory path.  If you point
+# ServerRoot at a non-local disk, be sure to specify a local disk on the
+# Mutex directive, if file-based mutexes are used.  If you wish to share the
+# same ServerRoot for multiple httpd daemons, you will need to change at
+# least PidFile.
+#
+Define SRVROOT "c:/Apache24"
+
+ServerRoot "${SRVROOT}"
+ServerRoot は Apache サーバが存在するディレクトリを設定します。デフォルトでは「c:/Apache24」となっていますので、実際に Apache をインストールしたディレクトリに変更します。具体的には変数 SRVROOT に対してインストールしたディレクトリの設定し、 ServerRoot へは変数 SRVROOT を設定しています。今回は次のように変更しました。
+
+
+ 
+Define SRVROOT "d:/pg/Apache/Apache24"
+
+ServerRoot "${SRVROOT}"
+なおこの時使用した SRVROOT 変数は、次の設定個所でも使用され、同じディレクトリが設定されます。
+
+#
+# DocumentRoot: The directory out of which you will serve your
+# documents. By default, all requests are taken from this directory, but
+# symbolic links and aliases may be used to point to other locations.
+#
+DocumentRoot "${SRVROOT}/htdocs"
+<Directory "${SRVROOT}/htdocs">
+
+  # 省略
+
+</Directory>
+
+ 
+<IfModule alias_module>
+    # 省略
+
+    #
+    # ScriptAlias: This controls which directories contain server scripts. 
+    # ScriptAliases are essentially the same as Aliases, except that
+    # documents in the target directory are treated as applications and
+    # run by the server when requested rather than as documents sent to the
+    # client.  The same rules about trailing "/" apply to ScriptAlias
+    # directives as to Alias.
+    #
+    ScriptAlias /cgi-bin/ "${SRVROOT}/cgi-bin/"
+
+</IfModule>
+#
+# "${SRVROOT}/cgi-bin" should be changed to whatever your ScriptAliased
+# CGI directory exists, if you have that configured.
+#
+<Directory "${SRVROOT}/cgi-bin">
+    AllowOverride None
+    Options None
+    Require all granted
+</Directory>
+ポート番号を設定する
+次にポート番号の設定を確認します。ファイル内で「Listen」を検索して下さい。
+
+#
+# Listen: Allows you to bind Apache to specific IP addresses and/or
+# ports, instead of the default. See also the <VirtualHost>
+# directive.
+#
+# Change this to Listen on specific IP addresses as shown below to 
+# prevent Apache from glomming onto all bound IP addresses.
+#
+#Listen 12.34.56.78:80
+Listen 80
+Listen は Apache がどのポート番号やIPアドレスを listen するのかを設定します。通常 Web サーバとブラウザとのやり取りは 80 番ポートを使って行わ、デフォルトの設定でも 80 番が設定されています。通常は変更の必要はありませんが、複数の Web サーバを同一サーバで動かしている場合などポート番号を変更したい場合にここで設定してください。
+
+ServerNameを設定する
+最後に ServerName の設定です。ファイル内で「ServerName」を検索して下さい。
+
+#
+# ServerName gives the name and port that the server uses to identify itself.
+# This can often be determined automatically, but we recommend you specify
+# it explicitly to prevent problems during startup.
+#
+# If your host doesn't have a registered DNS name, enter its IP address here.
+#
+#ServerName www.example.com:80
+ServerName はサーバ自身を表すホスト名とポート番号を設定します。初期設定はコメントとなっており設定されていません。設定する場合、例えば「www.example.com:80」のようにホスト名＋ポート番号で設定します。(ポート番号を省略した場合はサーバへリクエストがきているポート番号を使用します)。
+
+今回 Apache はローカル環境にインストールしていますので ServerName の前の「#」を削除して次のように変更しました。
+
+#
+# ServerName gives the name and port that the server uses to identify itself.
+# This can often be determined automatically, but we recommend you specify
+# it explicitly to prevent problems during startup.
+#
+# If your host doesn't have a registered DNS name, enter its IP address here.
+#
+ServerName localhost:80
+設定ファイルの修正が終わりましたら設定ファイルを保存しておいて下さい。
+
+( Written by Tatsuo Ikura )
+
+
