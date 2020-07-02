@@ -16,23 +16,11 @@ public class User implements Serializable{
     //====== constracter for general ======
     public User() {}
 
-
     //======= constracter for LoginServlet =======
-    public User(String name,String pass,String accountId) {
-
+    public User(String name,String pass,String mail) {
         this.name=name;
         this.pass=pass;
-        this.accountId=accountId;
-    }
-
-    //====== constracter for RegisterServlet ======
-    public User(String name,String pass,String accountId, String mail) {
-
-        this.name = name;
-        this.pass = pass;
-        this.accountId = accountId;
-        this.mail = mail;
-
+        this.mail=mail;
     }
 
     //======= getter and setter section ======
