@@ -58,7 +58,7 @@
   <p class="message">本登録のためメールを送信します。</p>
 </td></tr>
 <tr><td>
-<form action="/mailRegister/RegisterServlet" method="post">
+<form action="/mailRegister/SendMailServlet" method="post">
   <p>ユーザー名　：<input type="text" name="name" value="<%= name %>" required></p>
   <p>パスワード　：<input type="password" name="pass" value="<%= passCode %>" required></p>
   <p>Mailアドレス：<input type="email" name="mail" required></p>
