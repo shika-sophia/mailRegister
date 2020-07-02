@@ -1,0 +1,198 @@
+◆開発・検証用のダミーメールサーバの構築(fakeSMTP)
+投稿日：2019年9月15日 更新日：2019年9月16日
+https://www.nextdoorwith.info/wp/se/devstd/dev-dummy-mail-server-fakesmtp/
+
+
+アプリ開発や検証等でメールサーバを利用したい場合がある。
+プロジェクトで共有の検証用メールサーバを構築できると効率が良いか、その準備が間に合わなかったり、使用者が限定的な場合は、使用者の開発環境上に構築した方が手っ取り早い。
+ここでは、fakeSMTPというダミーのメールサーバを構築する方法を説明する。
+nilhcem.com  24 users
+
+FakeSMTP   FakeSMTP - Dummy SMTP server for developers
+http://nilhcem.com/FakeSMTP/
+fakeSMTPのインストール
+公式サイトからfakeSMTP.jarをダウンロード・展開し、実行します。
+
+インストールと動作確認
+上記の公式サイトのdownloadページから最新版をダウンロード(fakeSMTP-latest.zip)します。
+(2019年9月現在、v2.0が最新でした。)
+ダウンロード後、任意の場所に解凍します。
+（以降では”C:\fakeSMTP-latest”に展開した想定で説明します。）
+javaコマンドを使ってfakeSMTPを実行します。
+java.exe -jar C:\fakeSMTP-latest\fakeSMTP-2.0.jar
+表示されたGUIで[サーバー起動]をクリックします。
+何らかの方法でメールを送信します。
+簡単にメール送信したい場合は、下記のようなPowerShellを実行してメールを送信できます。
+sendmail.ps
+1
+2
+3
+4
+5
+6
+7
+8
+9
+$EmailFrom = "sender@example.com"
+$EmailTo ="receiver@example.com"
+$Subject = "お知らせ"
+$Body = "これはテストです。"
+$SMTPServer = "localhost"
+$SMTPClient = New-Object Net.Mail.SmtpClient($SmtpServer, 25)
+$SMTPClient.EnableSsl = $false
+$SMTPClient.Send($EmailFrom, $EmailTo, $Subject, $Body)
+$SMTPClient.Dispose()
+送信したメールの内容が、次のようにfakeSMTPのGUIに表示されることを確認する。
+
+表示行をダブルクリックすることで、OutlookやThunderbird等のメールクライアントで確認することもできます。（拡張子emlに対応するアプリが起動されますが、Outlook等の当該アプリが単独で正常に起動できるようになっていないとエラーで開けません。）
+
+補足
+公式サイトに説明がない動作についての補足です。
+
+fakeSMTPが終了する際、設定情報がユーザフォルダ(%USERPROFILE%)の下記プロパティファイルに出力されます。
+.fakeSMTP.properties
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+#Last user settings
+#Sun Sep 15 21:23:14 JST 2019
+emails.suffix=.eml
+emails.default.dir=received-emails
+application.name=FakeSMTP
+smtp.default.port=25
+application.min.height=440
+logback.appender.name=SMTPLOGS
+application.min.width=640
+application.title=Fake SMTP Server
+application.icon.path=/icon.gif
+「メッセージ保存先」は既定でreceived-emailsとなっています。これは、ユーザフォルダ(%USERPROFILE%)のreceived-emailsとなります。
+開発者展開用のバッチ
+概要
+開発者が難しいことを知らずに、ワンクリックでローカルにダミーのSMTPサーバを起動するためのバッチです。開発標準の一環として、”C:\fakeSMTP-latest”を圧縮して開発者に展開する想定です。
+
+起動するfakeSMTPの仕様は次の通りです。
+
+fakeSMTPのGUIを表示し、サーバを自動で開始する。
+（既定では、GUI表示後にユーザが[サーバー開始]ボタンをクリックする必要がある。）
+受信したメールは証跡として、バッチと同じフォルダのmailフォルダに残す。
+SMTPの既定の25番ポートを使用する。
+fakeSMTP起動時の-aオプションでリッスンするアドレスを指定できますが、-b, -sと併せて指定する必要があります。-bはバックグラウンド実行オプションで自動開始の-sオプションと併せて使う必要があります。GUIで確認できた方が分かりやすいので、ここでは-bオプションは使用しません。
+使い方
+fakeSMTP-2.0.jarと同じフォルダに配置し、バッチ上のJAVA_HOMEまたはJVM変数を環境に合わせて書き換えて、管理者権限を持つユーザで実行してください。
+
+fakeSMTP.bat
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+@echo off
+title fakeSMTP
+rem ========================================
+rem fakeSMTP.bat - fakeSMTP起動ラッパー
+rem ========================================
+ 
+rem カレントフォルダを、このバッチがある場所に変更
+cd /d "%~dp0"
+ 
+rem 基本定数--------------------------------
+ 
+rem 使用するfakeSMTP
+SET TARGET=fakeSMTP-2.0.jar
+ 
+rem fakeSMTPの実行に使用するJDK/JRE(1.6以上が必要)
+SET JAVA_HOME=C:\Program Files\Java\jdk1.8.0_171
+SET JVM=%JAVA_HOME%\bin\java.exe
+ 
+rem 受信したメールの保存先
+rem 当該フォルダが存在しない場合、fakeSMTPが作成
+SET MAIL_FOLDER=.\mail
+ 
+rem fakeSMTPオプション(v2.0)----------------
+rem (詳細: http://nilhcem.com/FakeSMTP/)
+ 
+SET FS_OPT=
+ 
+rem fakeSMTPオプション: 起動後にSMTPサービスを開始
+SET FS_OPT=%FS_OPT% -s
+ 
+rem fakeSMTPオプション: リッスンポート
+rem ※25番ポートを使う場合は管理者権限で実行が必要
+SET FS_OPT=%FS_OPT% -p 25
+ 
+rem fakeSMTPオプション: メール保存先(保存しない場合は-m)
+rem SET FS_OPT=%FS_OPT% -m
+SET FS_OPT=%FS_OPT% -o "%MAIL_FOLDER%"
+ 
+rem バインドするインターフェイスを指定する-aオプションは
+rem -b, -sオプションと併せて指定する必要がある。
+ 
+rem 実行------------------------------------
+ 
+echo fakeSMTPを起動します.....
+echo (終了する場合はGUIを閉じるか、このバッチをCtrl+Cで終了してください。)
+ 
+SET RUN_CMD="%JVM%" -jar "%TARGET%" %FS_OPT%
+rem echo コマンド: %RUN_CMD%
+%RUN_CMD%
+ 
+rem EOF
+
+
+
+-1. システムエンジニアリング, windows, 基盤技術, 開発標準化
+執筆者：ゆっきー
