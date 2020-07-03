@@ -35,7 +35,10 @@
   </th>
 </tr>
 <tr><td>
-  <p class="message">メールを送信しました<br>メールボックスを確認して下さい</p>
+  <p class="message">メールを送信しました</p>
+</td></tr>
+<tr><td>
+  <p class="message">メールボックスを確認して下さい</p>
 </td></tr>
 </table>
 </div>
