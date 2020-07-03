@@ -45,7 +45,9 @@ public class SendMailServlet extends HttpServlet {
 
     String subject = "Verify Mail";
     String message = "http://localhost:80?name=" + name + "&mail=" + toMail;
-    
+
+    //EncodeURL encodeURL = new EncodeURL();
+    //String encodeMessage = encodeURL.toUniCode(message);
     //---- send mail ----
     boolean doneMail = commonsMail.send(subject, message, toMail);
 
@@ -53,7 +55,7 @@ public class SendMailServlet extends HttpServlet {
     request.setAttribute("doneMail", doneMail);
 
     //---- forward to registerResult ----
-    String path = "/registerResult";
+    String path = "/mailDone.jsp";
     RequestDispatcher dis = request.getRequestDispatcher(path);
     dis.forward(request, response);
 
