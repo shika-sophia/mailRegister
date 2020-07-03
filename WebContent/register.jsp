@@ -33,7 +33,7 @@
 }
 </style>
 <meta charset="UTF-8">
-<title>matrix新規登録画面</title>
+<title>HoneyRegister</title>
 </head>
 
 <link rel="stylesheet" href="indexStyle.css">

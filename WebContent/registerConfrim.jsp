@@ -19,7 +19,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>matrix登録画面</title>
+<title>Honey登録画面</title>
 <link rel="stylesheet" href="indexStyle.css">
 </head>
 <body>
