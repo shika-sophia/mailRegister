@@ -1,0 +1,70 @@
+◆JavaScriptでURLクエリを取得する
+https://qiita.com/akinov/items/26a7fc36d7c0045dd2db
+
+JavaScript
+
+
+この記事は最終更新日から1年以上が経過しています。
+クエリ文字列の取得は
+
+window.location.search
+=> "?foo=1&bar=2"
+クエリ文字列をオブジェクトに整形する関数を用意。
+
+function getUrlQueries() {
+  var queryStr = window.location.search.slice(1);  // 文頭?を除外
+      queries = {};
+
+  // クエリがない場合は空のオブジェクトを返す
+  if (!queryStr) {
+    return queries;
+  }
+
+  // クエリ文字列を & で分割して処理
+  queryStr.split('&').forEach(function(queryStr) {
+    // = で分割してkey,valueをオブジェクトに格納
+    var queryArr = queryStr.split('=');
+    queries[queryArr[0]] = queryArr[1];
+  });
+
+  return queries;
+}
+
+これでめでたくクエリのオブジェクトの取得ができるようになりました🎉
+
+※ブログからの転載記事です。
+
+
+◆◆JavaScriptでquery文字列を取得
+https://qiita.com/ma_me/items/03aaebb5dc440b380244
+
+現在のページのクエリ文字列を取得するには、locationオブジェクトのsearchプロパティを使用します。
+
+url = window.location.search
+下記の関数を通すことで、クエリ文字列を配列として取得することができます。
+
+
+var val = getUrlVars();
+
+/**
+ * URL解析して、クエリ文字列を返す
+ * @returns {Array} クエリ文字列
+ */
+function getUrlVars()
+{
+    var vars = [], max = 0, hash = "", array = "";
+    var url = window.location.search;
+
+        //?を取り除くため、1から始める。複数のクエリ文字列に対応するため、&で区切る
+    hash  = url.slice(1).split('&');    
+    max = hash.length;
+    for (var i = 0; i < max; i++) {
+        array = hash[i].split('=');    //keyと値に分割。
+        vars.push(array[0]);    //末尾にクエリ文字列のkeyを挿入。
+        vars[array[0]] = array[1];    //先ほど確保したkeyに、値を代入。
+    }
+
+    return vars;
+}
+
+ 
