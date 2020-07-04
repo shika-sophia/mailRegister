@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import model.CommonsMail;
+import model.EnCodeURL;
 import model.RegisterLogic;
 import model.User;
 
@@ -79,11 +80,16 @@ public class RegisterServlet extends HttpServlet {
           //---- no existMail -> send Mail ----
           //---- call CommonsMail() ----
           CommonsMail commonsMail = new CommonsMail();
-
           String toMail = commonsMail.buildMail(user);
 
+          EnCodeURL enCodeUrl = new EnCodeURL();
+          StringBuilder passCode = enCodeUrl.buildPassCode(pass);
+
           String subject = "Verify Mail";
-          String mailMessage = "http://localhost:80?name=" + name + "&mail=" + toMail;
+          StringBuilder mailMessage = new StringBuilder();
+                  mailMessage.append("http://localhost:80?name=").append(name);
+                  mailMessage.append("&pass=").append(passCode);
+                  mailMessage.append("&mail=").append(toMail);
 
           //EncodeURL encodeURL = new EncodeURL();
           //String encodeMessage = encodeURL.toUniCode(mailMessage);
