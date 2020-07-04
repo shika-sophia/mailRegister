@@ -3,6 +3,7 @@
 
 <%@ page import="model.User" %>
 <% User user = (User) session.getAttribute("user"); %>
+<% String message = (String) request.getAttribute("message"); %>
 
 <% String name =""; %>
 <% String pass =""; %>
@@ -55,10 +56,14 @@
   </th>
 </tr>
 <tr><td>
-  <p class="message">本登録のためメールを送信します。</p>
+<% if (message == null || message.equals("")){ %>
+    <p class="message">本登録のためメールを送信します。</p>
+<% } else { %>
+    <p class="message"><%= message %></p>
+<% } %>
 </td></tr>
 <tr><td>
-<form action="/mailRegister/SendMailServlet" method="post">
+<form action="/mailRegister/RegisterServlet" method="post">
   <p>ユーザー名　：<input type="text" name="name" value="<%= name %>" required></p>
   <p>パスワード　：<input type="password" name="pass" value="<%= passCode %>" required></p>
   <p>Mailアドレス：<input type="email" name="mail" required></p>
