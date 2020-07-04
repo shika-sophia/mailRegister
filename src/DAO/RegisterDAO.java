@@ -17,7 +17,7 @@ public class RegisterDAO {
     private final String DB_USER = "root";
     private final String DB_PASS = "root";
 
-    public List<String> selectRegister(User user) {
+    public List<String> selectRegister() {
         Connection conn = null;
         List<String> mailDB = new ArrayList<>();
 
@@ -25,14 +25,10 @@ public class RegisterDAO {
             conn = DriverManager.getConnection(JDBC_URL,DB_USER,DB_PASS);
 
             //SELECT文の準備
-            String sql = "SELECT * FROM user WHERE name = ? AND pass = ? AND mail = ?";
+            String sql = "SELECT mail FROM user";
 
             //SQL文を送る
             PreparedStatement pStmt = conn.prepareStatement(sql);
-            pStmt.setString(1,user.getName());
-            pStmt.setString(2,user.getPass());
-            pStmt.setString(3,user.getMail());
-
 
             //SQL文を実行して結果を取得する
             ResultSet rs = pStmt.executeQuery();
