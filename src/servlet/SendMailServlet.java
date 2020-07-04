@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import DAO.RegisterDAO;
 import model.CommonsMail;
 import model.User;
 
@@ -19,6 +20,24 @@ public class SendMailServlet extends HttpServlet {
 
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+
+      request.setCharacterEncoding("UTF-8");
+      //Apache24/htdocs/index.htmlから何の情報を受け取るかを記述
+
+      HttpSession session = request.getSession();
+      User user = (User) session.getAttribute("user");
+
+      String message = "登録ＯＫ";
+      request.setAttribute("message", message);
+
+      //insert文でＤＢに登録
+      RegisterDAO dao = new RegisterDAO();
+      dao.insertRegister(user);
+
+      //---- forward to registerDone.jsp ----
+      //String path = "/registerDone.jsp";
+      //RequestDispatcher dis = request.getRequestDispatcher(path);
+      //dis.forward(request, response);
 
   }//doGet()
 
