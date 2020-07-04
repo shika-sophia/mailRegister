@@ -16,7 +16,15 @@
 <br>
 <br>
 <br>
-<script type="text/javascript">function getURLQuery</script>
+<!-- JavaScript getQuery -->
+<script type="text/javascript">
+    var query = getUrlQuery();
+    var name = query[name];
+    var pass = query[pass];
+    var mail = query[mail];
+</script>
+
+<!-- table Section -->
 <div id="index" align="center">
 <table class="index">
 <tr>
@@ -24,13 +32,13 @@
 <i>＊ 登録内容確認 ＊　　</i>
   </th></tr>
 <tr><td>
-<form action="C:\Program Files\pleiades\workspace-web\mailRegister\src\servlet\SendMailServlet" method="get">
-  <p>ユーザー名　：<%= name %></p>
-  <p>パスワード　：<%= passCode %></p>
-  <p>Mailアドレス：<%= mail %></p>
+<form action="C:\\Program Files\\pleiades\\workspace-web\\mailRegister\\src\\servlet\\SendMailServlet" method="get">
+  <p>ユーザー名　：<script type="text/javascript">document.write(name);</script></p>
+  <p>パスワード　：<script type="text/javascript">document.write(pass);</script></p>
+  <p>Mailアドレス：<script type="text/javascript">document.write(mail);</script></p>
 <br>
-<p>上記の内容で登録しますか？</p>
-<input type="submit" name="mailRegist" value="yes">
+<p>上記の内容で登録しますか？　
+<input type="submit" name="mailRegist" value="承認"></p>
 </form>
 <br>
 <p></p>
