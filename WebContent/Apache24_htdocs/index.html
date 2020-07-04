@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <title>Honey確認</title>
 <link rel="stylesheet" href="indexStyle.css">
+<script type="text/javascript" src="for_apache.js"></script>
 </head>
 <body>
 <!-- Upper Section -->
@@ -15,6 +16,7 @@
 <br>
 <br>
 <br>
+<script type="text/javascript">function getURLQuery</script>
 <div id="index" align="center">
 <table class="index">
 <tr>
@@ -22,16 +24,17 @@
 <i>＊ 登録内容確認 ＊　　</i>
   </th></tr>
 <tr><td>
-<form action="C:/pleiades/workspace/mailRegister/WebContent/registerDone.jsp" method="post">
-  <p>ユーザー名　：<input type="text" name="name" class="font-name"></p>
-  <p>パスワード　：<input type="text" name="passCode" class="font-passCode"></p>
-  <p>Mailアドレス：<input type="text" name="mail" class="font-mail"></p>
-<br>
-</form>
+<form action="C:\Program Files\pleiades\workspace-web\mailRegister\src\servlet\SendMailServlet" method="get">
+  <p>ユーザー名　：<%= name %></p>
+  <p>パスワード　：<%= passCode %></p>
+  <p>Mailアドレス：<%= mail %></p>
 <br>
 <p>上記の内容で登録しますか？</p>
-<p><a href="/mailRegister/RegisterServlet?action=done">登録する</a></p>
-<p><a href="/mailRegister/RegisterServlet">戻る</a></p>
+<input type="submit" name="mailRegist" value="yes">
+</form>
+<br>
+<p></p>
+<p><a href="C:\Program Files\pleiades\workspace-web\mailRegister\src\servlet\RegisterServlet">戻る</a></p>
 
 </td></tr></table>
 </div>
