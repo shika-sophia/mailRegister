@@ -15,8 +15,8 @@ public class readFile {
 
     //---- read the target file text / 目標ファイルの読み取り ----
     try {
-    	Path path = Paths.get("C:\\Program Files\\Apache24\\htdocs\\index.html");
-    	//Path path = Paths.get("C:\\Users\\MediWorks-03\\Desktop\\received-emails");
+        Path path = Paths.get("C:\\Program Files\\pleiades\\workspace-web\\mailRegister\\WebContent\\Apache24_htdocs\\index.html");
+        //Path path = Paths.get("C:\\Users\\MediWorks-03\\Desktop\\received-emails");
 
         BufferedReader reader = Files.newBufferedReader(path);
         String readLine = reader.readLine();
@@ -34,7 +34,7 @@ public class readFile {
         //System.out.println(readPage);
 
     } catch (IOException e){
-    	e.printStackTrace();
+        e.printStackTrace();
     }//try catch
 
     //return readPage;
@@ -45,5 +45,15 @@ public class readFile {
 
 /* ====== Test Result ======
 <html><body><h1>It works!</h1></body></html>
+
+//Path path = Paths.get("C:\\Program Files\\pleiades\\workspace-web\\mailRegister\\WebContent\\Apache24_htdocs\\index.html");
+
+Exception in thread "main" java.lang.OutOfMemoryError: Java heap space
+    at java.base/java.util.Arrays.copyOf(Arrays.java:3745)
+    at java.base/java.lang.AbstractStringBuilder.ensureCapacityInternal(AbstractStringBuilder.java:172)
+    at java.base/java.lang.AbstractStringBuilder.append(AbstractStringBuilder.java:538)
+    at java.base/java.lang.StringBuilder.append(StringBuilder.java:174)
+    at model.readFile.main(readFile.java:26)
+
 
 */

@@ -11,7 +11,7 @@ import org.apache.commons.mail.SimpleEmail;
 public class CommonsMail {
   //---- field definition ----
   private String toMail = "xxxx@example.com";
-  private String fromMail = "yyyy@host";
+  private String fromMail = "HoneySea@host";
   private String charset = "ISO-2022-JP";//
   private String encording = "base64";
 
@@ -33,7 +33,7 @@ public class CommonsMail {
 
   //====== void main() ======
   //public static void main(String[] args) throws IOException{
-  
+
   //====== buildMail() ======
   public String buildMail(User user) {
       this.name = user.getName();
@@ -46,7 +46,7 @@ public class CommonsMail {
 
 
 // ====== send() ======
-  public boolean send(String subject, String mailMessage, String toMail) {
+  public boolean send(String subject, StringBuilder mailMessage, String toMail) {
       boolean doneMail = false;
 
       Email email = new SimpleEmail();
@@ -61,7 +61,7 @@ public class CommonsMail {
           email.addTo(toMail);
           email.setCharset(charset);
           email.setSubject(subject);
-          email.setMsg(mailMessage);
+          email.setMsg(mailMessage.toString());
           email.setDebug(true);
 
           email.send();
