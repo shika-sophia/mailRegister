@@ -24,19 +24,21 @@ public class CommonsMail {
   private boolean startTls = false;
 
   private Map<String, String> header = new HashMap<>() {
-	  private static final long serialVersionUID = 1L;
-	  {
-	    put("Content-Transfer-Encording", encording);
-	  }
+      private static final long serialVersionUID = 1L;
+      {
+        put("Content-Transfer-Encording", encording);
+      }
   };//Hushmap define
 
 
   //====== void main() ======
   //public static void main(String[] args) throws IOException{
+  
+  //====== buildMail() ======
   public String buildMail(User user) {
-	  this.name = user.getName();
-	  this.pass = user.getPass();
-	  this.toMail = user.getMail();
+      this.name = user.getName();
+      this.pass = user.getPass();
+      this.toMail = user.getMail();
 
       return toMail;
 
@@ -44,31 +46,31 @@ public class CommonsMail {
 
 
 // ====== send() ======
-  public boolean send(String subject, String message, String toMail) {
+  public boolean send(String subject, String mailMessage, String toMail) {
       boolean doneMail = false;
 
       Email email = new SimpleEmail();
 
       try {
-    	  email.setHostName(host);
-    	  email.setSmtpPort(port);
-    	  email.setHeaders(header);
-    	  email.setAuthenticator(new DefaultAuthenticator(name, pass));
-    	  email.setStartTLSEnabled(startTls);
-    	  email.setFrom(fromMail);
-    	  email.addTo(toMail);
-    	  email.setCharset(charset);
-    	  email.setSubject(subject);
-    	  email.setMsg(message);
-    	  email.setDebug(true);
+          email.setHostName(host);
+          email.setSmtpPort(port);
+          email.setHeaders(header);
+          email.setAuthenticator(new DefaultAuthenticator(name, pass));
+          email.setStartTLSEnabled(startTls);
+          email.setFrom(fromMail);
+          email.addTo(toMail);
+          email.setCharset(charset);
+          email.setSubject(subject);
+          email.setMsg(mailMessage);
+          email.setDebug(true);
 
-    	  email.send();
+          email.send();
 
-    	  doneMail = true;
+          doneMail = true;
 
       } catch (EmailException e) {
-    	  e.printStackTrace();
-    	  doneMail = false;
+          e.printStackTrace();
+          doneMail = false;
       }
 
       return doneMail;
