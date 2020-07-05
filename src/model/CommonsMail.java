@@ -10,6 +10,7 @@ import org.apache.commons.mail.SimpleEmail;
 
 public class CommonsMail {
   //---- field definition ----
+  private String subject = "Verify Mail";
   private String toMail = "xxxx@example.com";
   private String fromMail = "HoneySea@host";
   private String charset = "ISO-2022-JP";//
@@ -35,18 +36,31 @@ public class CommonsMail {
   //public static void main(String[] args) throws IOException{
 
   //====== buildMail() ======
-  public String buildMail(User user) {
+  public StringBuilder buildMail(User user) {
       this.name = user.getName();
       this.pass = user.getPass();
       this.toMail = user.getMail();
 
-      return toMail;
+      EnCodeURL enCodeUrl = new EnCodeURL();
+      StringBuilder passCode = enCodeUrl.buildPassCode(this.pass);
+
+      StringBuilder buildURL = new StringBuilder();
+          buildURL.append("http://localhost:80/?name=").append(this.name);
+          buildURL.append("&pass=").append(passCode.toString());
+          buildURL.append("&mail=").append(this.toMail);
+
+      StringBuilder mailMessage = new StringBuilder();
+          mailMessage.append("<a href=\"").append(buildURL.toString());
+          mailMessage.append("\">").append(buildURL.toString());
+          mailMessage.append("</a>");
+
+      return mailMessage;
 
   }//buildMail()
 
 
 // ====== send() ======
-  public boolean send(String subject, StringBuilder mailMessage, String toMail) {
+  public boolean send(StringBuilder mailMessage) {
       boolean doneMail = false;
 
       Email email = new SimpleEmail();
