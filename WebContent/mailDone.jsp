@@ -7,7 +7,7 @@
 <head>
 <style>
 .message {
-    color: cornflowerblue;
+    color: green;
     text-align: center;
     font-weight: bold;
 }
@@ -39,6 +39,9 @@
 </td></tr>
 <tr><td>
   <p class="message">メールボックスを確認して下さい</p>
+</td></tr>
+<tr><td>
+  <p><a href="registerConfirm.jsp">Apacheと同じものをeclipse内に作ったページ</a>
 </td></tr>
 </table>
 </div>
