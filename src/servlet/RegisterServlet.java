@@ -76,14 +76,17 @@ public class RegisterServlet extends HttpServlet {
           dis.forward(request, response);
 
       } else {
+          //---- for Encode Class ----
+             //provide code / 識別コードの生成
+
+    	  //---- for TempRegisterLogic / 仮登録----
+    	     //user(name,pass,mail),code -> DAO -> DB
+    	     //現在日時の生成 nowDateTime -> DAO -> DB
+
           //---- no existMail -> send Mail ----
           //---- call CommonsMail() ----
           CommonsMail commonsMail = new CommonsMail();
           StringBuilder mailMessage = commonsMail.buildMail(user);
-
-
-          //EnCodeURL encodeUrl = new EnCodeURL();
-          //String encodeMessage = encodeURL.toUniCode(mailMessage);
 
           //---- send mail ----
           boolean doneMail = commonsMail.send(mailMessage);
