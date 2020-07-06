@@ -7,16 +7,16 @@ public class User implements Serializable{
     //------ field parameters in User(Beans) Class ------
     private String name;
     private String pass;
-    private String accountId;
     private int puzzleId;
     private int point;
     private String mail;
+    private String code;
 
 
     //====== constracter for general ======
     public User() {}
 
-    //======= constracter for LoginServlet =======
+    //======= constracter for RegisterServlet =======
     public User(String name,String pass,String mail) {
         this.name=name;
         this.pass=pass;
@@ -38,14 +38,6 @@ public class User implements Serializable{
 
     public void setPass(String pass) {
         this.pass = pass;
-    }
-
-    public String getAccountId() {
-        return accountId;
-    }
-
-    public void setAccountId(String accountId) {
-        this.accountId = accountId;
     }
 
     public int getPuzzleId() {
@@ -70,6 +62,14 @@ public class User implements Serializable{
 
 	public void setMail(String mail) {
 		this.mail = mail;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
 	}
 
 }//class

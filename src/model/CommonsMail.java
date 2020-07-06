@@ -41,8 +41,13 @@ public class CommonsMail {
       this.pass = user.getPass();
       this.toMail = user.getMail();
 
-      EnCodeURL enCodeUrl = new EnCodeURL();
-      StringBuilder passCode = enCodeUrl.buildPassCode(this.pass);
+      StringBuilder passCode = new StringBuilder();
+      int passLength = pass.codePointCount(0, pass.length());
+
+      for (int i = 1; i <= passLength; i++){
+          passCode.append("*");
+      }//for
+
 
       StringBuilder buildURL = new StringBuilder();
           buildURL.append("http://localhost:80/?name=").append(this.name);
