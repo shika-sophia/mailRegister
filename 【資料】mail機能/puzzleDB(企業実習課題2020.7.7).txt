@@ -1,0 +1,130 @@
+-- sample
+
+mysql> SHOW TABLES;
++-----------------------+
+| Tables_in_member_list |
++-----------------------+
+| loginlist             |
+| memberinformation     |
+| tempregister          |
++-----------------------+
+3 rows in set (0.79 sec)
+
+mysql> SELECT * FROM loginlist;
++---------------+----------------+-----------------+---------+------------------+----------+-----------------+-----------+
+| MemberCode    | last_name      | first_name      | id      | mailaddress1     | password | expiration_date | rank_id   |
++---------------+----------------+-----------------+---------+------------------+----------+-----------------+-----------+
+| F020A0401A001 | last_name_t_01 | first_name_t_01 | id_t_01 | mailAddress_t_01 | pw_t_01  |        20250321 | rank_t_01 |
+| F020A0401A002 | last_name_t_02 | first_name_t_02 | id_t_02 | mailAddress_t_02 | pw_t_02  |        20240829 | rank_t_02 |
++---------------+----------------+-----------------+---------+------------------+----------+-----------------+-----------+
+2 rows in set (0.76 sec)
+
+mysql> SELECT * FROM memberinformation;
++---------------+----------------+-----------------+----------------+---------------+-------------+------------------+------------------+---------------------+-----------------+--------------+-------------------+-----------------+------------------+-----------------------+------------------+-------------------+-----------------+-----------+
+| MemberCode    | last_name      | first_name      | pseudonym      | birthday      | gender      | postal_code      | prefectures      | municipalities      | street_name     | address      | building_name     | room_number     | phone_number     | cellphone_number      | mailaddress1     | mailaddress2      | expiration_date | rank_id   |
++---------------+----------------+-----------------+----------------+---------------+-------------+------------------+------------------+---------------------+-----------------+--------------+-------------------+-----------------+------------------+-----------------------+------------------+-------------------+-----------------+-----------+
+| F020A0401A001 | last_name_t_01 | First_name_t_01 | Pseudonym_t_01 | Birthday_t_01 | gender_t_01 | Postal_code_t_01 | prefectures_t_01 | municipalities_t_01 | streetName_t_01 | address_t_01 | buildingName_t_01 | roomNumber_t_01 | phon_number_t_01 | cellPhone_number_t_01 | mailAddress_t_01 | mailAddress2_t_01 |        20250321 | rank_t_01 |
+| F020A0401A002 | last_name_t_02 | First_name_t_02 | Pseudonymt_02  | Birthdayt_02  | gendert_02  | Postal_codet_02  | prefecturest_02  | municipalitiest_02  | streetNamet_02  | addresst_02  | buildingNamet_02  | roomNumbert_02  | phon_number_t_02 | cellPhone_number_t_02 | mailAddress_t_02 | mailAddress2_t_02 |        20250321 | rank_t_02 |
++---------------+----------------+-----------------+----------------+---------------+-------------+------------------+------------------+---------------------+-----------------+--------------+-------------------+-----------------+------------------+-----------------------+------------------+-------------------+-----------------+-----------+
+2 rows in set (0.08 sec)
+
+mysql> SELECT * FROM tempregister;
++-----------------+---------+-----------------+
+| mailaddress1    | id      | expiration_date |
++-----------------+---------+-----------------+
+| test_1@gmai.com | id_t_01 |        20250321 |
++-----------------+---------+-----------------+
+
+
+
+/* 企業実習課題 */
+
+-- puzzleデータベースの作成
+
+CREATE DATABASE puzzle;
+
+Query OK, 1 row affected (0.50 sec)
+
+
+USE puzzle;
+Database changed
+
+
+-- userテーブルの作成
+
+CREATE TABLE user(
+    name VARCHAR(30) NOT NULL,
+    accountId VARCHAR(30) NOT NULL,
+    pass VARCHAR(30) NOT NULL,
+    point INT DEFAULT 0 CHECK(point >= 0),
+    puzzleId INT PRIMARY KEY AUTO_INCREMENT,
+    mail VARCHAR(100) NOT NULL
+);
+
+Query OK, 0 rows affected (1.80 sec)
+
+
+SHOW COLUMNS FROM user;
+
++-----------+--------------+------+-----+---------+----------------+
+| Field     | Type         | Null | Key | Default | Extra          |
++-----------+--------------+------+-----+---------+----------------+
+| name      | varchar(30)  | NO   |     | NULL    |                |
+| accountId | varchar(30)  | NO   |     | NULL    |                |
+| pass      | varchar(30)  | NO   |     | NULL    |                |
+| point     | int          | YES  |     | 0       |                |
+| puzzleId  | int          | NO   | PRI | NULL    | auto_increment |
+| mail      | varchar(100) | NO   |     | NULL    |                |
++-----------+--------------+------+-----+---------+----------------+
+
+
+-- matrixテーブルの作成
+
+CREATE TABLE matrix(
+    puzzleId INTEGER NOT NULL,
+    cell INTEGER NOT NULL,
+    color INTEGER DEFAULT 0,
+    saveDateTime VARCHAR(40) NOT NULL
+);
+
+Query OK, 0 rows affected (0.86 sec)
+
+
+SHOW COLUMNS FROM matrix;
+
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| puzzleId     | int         | NO   |     | NULL    |       |
+| cell         | int         | NO   |     | NULL    |       |
+| color        | int         | YES  |     | 0       |       |
+| saveDateTime | varchar(40) | NO   |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+
+
+-- ###### 2020/7/7 ######
+-- tempテーブルの作成
+
+CREATE TABLE temp(
+    name VARCHAR(30) NOT NULL,
+    pass VARCHAR(30) NOT NULL,
+    mail VARCHAR(100) NOT NULL PRIMARY KEY,
+    mailCode VARCHAR(300) NOT NULL,
+    nowDateTime VARCHAR(40) NOT NULL
+);
+
+Query OK, 0 rows affected (0.36 sec)
+
+
+SHOW COLUMNS FROM temp;
+
++-------------+--------------+------+-----+---------+-------+
+| Field       | Type         | Null | Key | Default | Extra |
++-------------+--------------+------+-----+---------+-------+
+| name        | varchar(30)  | NO   |     | NULL    |       |
+| pass        | varchar(30)  | NO   |     | NULL    |       |
+| mail        | varchar(100) | NO   | PRI | NULL    |       |
+| mailCode    | varchar(300) | NO   |     | NULL    |       |
+| nowDateTime | varchar(40)  | NO   |     | NULL    |       |
++-------------+--------------+------+-----+---------+-------+
+
