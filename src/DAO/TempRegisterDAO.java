@@ -57,7 +57,7 @@ public class TempRegisterDAO {
 
     }//tempRegister()
 
-    public boolean doneTempRegister(User user) {
+    public boolean doneTempRegister(User user,String nowDateTime) {
 
     	Connection conn = null;
 
@@ -65,7 +65,7 @@ public class TempRegisterDAO {
     		conn =DriverManager.getConnection(JDBC_URL,DB_USER,DB_PASS);
 
     		//INSERT文の準備
-    		String sql = "INSERT INTO temp(name,pass,mail,mailCode) values(?,?,?,?)";
+    		String sql = "INSERT INTO temp(name,pass,mail,mailCode,nowDateTime) values(?,?,?,?,?)";
 
     		//SQL文を送る
     		PreparedStatement pStmt = conn.prepareStatement(sql);
@@ -75,6 +75,7 @@ public class TempRegisterDAO {
     		pStmt.setString(2,user.getPass());
     		pStmt.setString(3,user.getMail());
     		pStmt.setString(4,user.getMailCode());
+    		pStmt.setString(5,nowDateTime);
 
     		//INSERT文を実行
     		int rs = pStmt.executeUpdate();
