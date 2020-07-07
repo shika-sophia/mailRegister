@@ -43,12 +43,12 @@ public class PostMailServlet extends HttpServlet {
         boolean doneInsert = dao.insertRegister(user);
 
         if (doneInsert) {
-        	//for TempRegister -> mailCodeを渡して その仮登録を削除、本登録
+            //for TempRegister -> mailCodeを渡して その仮登録を削除、本登録
 
             String message = "本登録完了";
             request.setAttribute("message", message);
 
-            String path = "/registerDone.jap";
+            String path = "/registerDone.jsp";
             RequestDispatcher dis = request.getRequestDispatcher(path);
             dis.forward(request, response);
 
@@ -57,8 +57,8 @@ public class PostMailServlet extends HttpServlet {
         }//if doneInsert
 
     } else { //mailCode と 現在のcurrentMailCodeが違う場合
-    	//for TempRegisterにmailCode を渡して、そのuserデータを取得
-    	//それを本登録
+        //for TempRegisterにmailCode を渡して、そのuserデータを取得
+        //それを本登録
     }//if mailCode
   }//doPost()
 
