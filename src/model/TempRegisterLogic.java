@@ -1,45 +1,45 @@
 package model;
 
-import java.util.List;
-
 import DAO.TempRegisterDAO;
 
 public class TempRegisterLogic {
 
-	public void execute(User user) {
+	public boolean executeTempRegister(User user) {
+
+		NowDateTime ndt = new NowDateTime();
+		String nowDateTime = ndt.nowDateTime();
 
 		TempRegisterDAO dao = new TempRegisterDAO();
-		dao.doneTempRegister(user);
+		boolean doneTempRegister = dao.doneTempRegister(user,nowDateTime);
 
+		return doneTempRegister;
 	}
+}
 
-	public boolean existTempRegister(User user) {
+	/*
+	List<String> mailDB = dao.tempRegister();
 
-		TempRegisterDAO dao = new TempRegisterDAO();
-		List<String> mailDB = dao.tempRegister();
+	boolean existMail = existMail(user, mailDB);
 
-		boolean existMail = existMail(user, mailDB);
-
-		return existMail;
-
-	}
-
-	private boolean existMail(User user, List<String> mailDB) {
-
-		boolean existMail = false;
-
-		String mail = user.getMailCode();
-
-		for(String str : mailDB) {
-	      if (mail.equals(str)) {
-	          existMail = true;
-	          break;
-	      } else {
-	          existMail = false;
-	      }
-	    }// for
-
-	        return existMail;
-	}
+	return existMail;
 
 }
+
+private boolean existMail(User user, List<String> mailDB) {
+
+	boolean existMail = false;
+
+	String mail = user.getMailCode();
+
+	for(String str : mailDB) {
+      if (mail.equals(str)) {
+          existMail = true;
+          break;
+      } else {
+          existMail = false;
+      }
+    }// for
+
+        return existMail;
+}
+*/
