@@ -10,7 +10,7 @@ public class User implements Serializable{
     private int puzzleId;
     private int point;
     private String mail;
-    private String code;
+    private String mailCode;
 
 
     //====== constracter for general ======
@@ -64,12 +64,12 @@ public class User implements Serializable{
 		this.mail = mail;
 	}
 
-	public String getCode() {
-		return code;
+	public String getMailCode() {
+		return mailCode;
 	}
 
-	public void setCode(String code) {
-		this.code = code;
+	public void setMailCode(String mailCode) {
+		this.mailCode = mailCode;
 	}
 
 }//class

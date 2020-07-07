@@ -8,6 +8,8 @@ import org.apache.commons.mail.Email;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.SimpleEmail;
 
+import test.Encode;
+
 public class CommonsMail {
   //---- field definition ----
   private String subject = "Verify Mail";
@@ -32,32 +34,36 @@ public class CommonsMail {
   };//Hushmap define
 
 
-  //====== void main() ======
+  //====== void main() for Test======
   //public static void main(String[] args) throws IOException{
 
   //====== buildMail() ======
-  public StringBuilder buildMail(User user) {
+  public String buildMail(User user) {
       this.name = user.getName();
       this.pass = user.getPass();
-      this.toMail = user.getMail();
 
-      StringBuilder passCode = new StringBuilder();
-      int passLength = pass.codePointCount(0, pass.length());
+      String mail =user.getMail();//Encode.buildMailCode(mail) には mailで渡すため
+      this.toMail = mail;         //ここのフィールドは toMailを使用
 
-      for (int i = 1; i <= passLength; i++){
-          passCode.append("*");
-      }//for
+      // ---- call Encode -----
+      Encode encode = new Encode();
+      String nameCode = encode.buildNameCode(name);
+      String passCode = encode.buildPassCode(pass);
+      String mailCode = encode.buildMailCode(mail);
 
-
+      // ---- buildURL ----
       StringBuilder buildURL = new StringBuilder();
-          buildURL.append("http://localhost:80/?name=").append(this.name);
-          buildURL.append("&pass=").append(passCode.toString());
-          buildURL.append("&mail=").append(this.toMail);
+          buildURL.append("http://localhost:80/?name=").append(nameCode);
+          buildURL.append("&pass=").append(passCode);
+          buildURL.append("&mail=").append(mailCode);
 
-      StringBuilder mailMessage = new StringBuilder();
-          mailMessage.append("<a href=\"").append(buildURL.toString());
-          mailMessage.append("\">").append(buildURL.toString());
-          mailMessage.append("</a>");
+      // ---- build mailMessage ----
+      StringBuilder mailMessageBuilder = new StringBuilder();
+          mailMessageBuilder.append("<a href=\"").append(buildURL.toString());
+          mailMessageBuilder.append("\">").append(buildURL.toString());
+          mailMessageBuilder.append("</a>");
+
+          String mailMessage = mailMessageBuilder.toString();
 
       return mailMessage;
 
@@ -65,7 +71,7 @@ public class CommonsMail {
 
 
 // ====== send() ======
-  public boolean send(StringBuilder mailMessage) {
+  public boolean send(String mailMessage) {
       boolean doneMail = false;
 
       Email email = new SimpleEmail();
@@ -80,7 +86,7 @@ public class CommonsMail {
           email.addTo(toMail);
           email.setCharset(charset);
           email.setSubject(subject);
-          email.setMsg(mailMessage.toString());
+          email.setMsg(mailMessage);
           email.setDebug(true);
 
           email.send();
