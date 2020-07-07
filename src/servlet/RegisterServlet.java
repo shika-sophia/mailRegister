@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import model.CommonsMail;
 import model.RegisterLogic;
+import model.TempRegisterLogic;
 import model.User;
 import test.Encode;
 
@@ -82,8 +83,8 @@ public class RegisterServlet extends HttpServlet {
           user.setMailCode(mailCode);
 
           //---- for TempRegisterLogic / 仮登録----
-          //TempRegisterLogic trl = new TempRegisterLogic();
-          //boolean doneTempRegister = trl.executeTempRegister(user);
+          TempRegisterLogic trl = new TempRegisterLogic();
+          boolean doneTempRegister = trl.executeTempRegister(user);
 
           //---- call CommonsMail() ----
           CommonsMail commonsMail = new CommonsMail();
