@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Honey確認</title>
+<link rel="stylesheet" href="indexStyle.css">
+<script type="text/javascript" src="/for_ApacheDecode.js"></script>
+</head>
+<body>
+<!-- Upper Section -->
+<div id="upper">
+<hr color="white" size="5">
+<h1><i>＊ Honey Sea ＊　</i></h1>
+<hr color="white" size="5">
+</div>
+<br>
+<br>
+<br>
+<!-- JavaScript getQuery -->
+<script type="text/javascript">
+    var query = getUrlQuery();
+    var name = query['name'];
+    var pass = query['pass'];
+    var mail = query['mail'];
+
+    var nameDecode = decode(name);
+    var mailDecode = decode(mail);
+</script>
+
+<!-- table Section -->
+<div id="index" align="center">
+<table class="index">
+<tr>
+  <th style="text-align: center; font-size: large;">
+<i>＊ 登録内容確認 ＊　　</i>
+  </th></tr>
+<tr><td>
+<form action="/mailRegister/SendMailServlet" method="post">
+  <p>ユーザー名　：<script type="text/javascript">document.write(nameDecode);</script></p>
+  <p>パスワード　：<script type="text/javascript">document.write(pass);</script></p>
+  <p>Mailアドレス：<script type="text/javascript">document.write(mailDecode);</script></p>
+<br>
+<p>上記の内容で登録しますか？　
+<button
+    type="submit" name="mailCode"
+    value=mailCode >承認</button></p>
+</form>
+<br>
+<p></p>
+<p><a href="/mailRegister/RegisterServlet">戻る</a></p>
+
+</td></tr></table>
+</div>
+</body>
+</html>

@@ -4,16 +4,21 @@
 
 
 function getUrlQuery(){
-  var queryStr = window.location.search.substring(2);
-  var queryArray = [];
+    var queryStr = window.location.search.substring(1);
+    var queryArray = [];
 
     if (queryStr){
-        var division = queryStr.split('%m');
+        var division = queryStr.split('&');
 
         for (i = 0; i < division.length; i++){
-            queryArray[i] = division[i];
+            var reDivision = division[i].split('=');
+            queryArray[reDivision[0]] = reDivision[1];
         }//for i
 
+    } else if (!queryStr) {
+        queryArray['name'] = "";
+        queryArray['pass'] = "";
+        queryArray['mail'] = "";
     }//if
 
     return queryArray;
@@ -21,16 +26,11 @@ function getUrlQuery(){
 }//function getUrlQuery()
 
 
-function decode(){
-    var queryArray = getUrlQuery();
-    var code = "";
+function decodeName(nameCode){
 
-    for (i = 0; i < queryArray.length; i++){
-        code = "%u" + queryArray[i];
-    }
-    var mailDecode = unescape(code);
+    var massageDecode = unescape(code);
 
-    return mailDecode;
+    return messageDecode;
 
 }//function decode()
 
