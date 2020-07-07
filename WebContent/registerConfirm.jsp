@@ -5,7 +5,7 @@
 <% String name = user.getName();%>
 <% String pass = user.getPass();%>
 <% String mail = user.getMail(); %>
-<% String mailCode = user.getMailCode(); %>//mailCodeとcurrentMailCodeが同じ場合のみ
+<% String mailCode = user.getMailCode(); %>
 
 <% // ---- make passCode with passLength ----
    int passLength = pass.codePointCount(0, pass.length());
