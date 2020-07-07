@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import model.CommonsMail;
 import model.RegisterLogic;
 import model.User;
+import test.Encode;
 
 @WebServlet("/RegisterServlet")
 public class RegisterServlet extends HttpServlet {
@@ -54,10 +55,6 @@ public class RegisterServlet extends HttpServlet {
       //---- input each parameter to user ----
       User user = new User(name, pass, mail);
 
-      //---- set user to session scope ----
-      HttpSession session = request.getSession();
-      session.setAttribute("user", user);
-
       //---- call existRegister ----
       RegisterLogic rl = new RegisterLogic();
       boolean existMail = (boolean) rl.existRegister(user);
@@ -76,23 +73,31 @@ public class RegisterServlet extends HttpServlet {
           dis.forward(request, response);
 
       } else {
+          //==== no existMail -> Encode -> TempRegister -> send Mail ====
           //---- for Encode Class ----
-             //provide code / 識別コードの生成
+          Encode encode = new Encode();
+          String mailCode = encode.buildMailCode(mail);
 
-    	  //---- for TempRegisterLogic / 仮登録----
-    	     //user(name,pass,mail),code -> DAO -> DB
-    	     //現在日時の生成 nowDateTime -> DAO -> DB
+          //---- set mailCode to user ----
+          user.setMailCode(mailCode);
 
-          //---- no existMail -> send Mail ----
+          //---- for TempRegisterLogic / 仮登録----
+          //TempRegisterLogic trl = new TempRegisterLogic();
+          //boolean doneTempRegister = trl.executeTempRegister(user);
+
           //---- call CommonsMail() ----
           CommonsMail commonsMail = new CommonsMail();
-          StringBuilder mailMessage = commonsMail.buildMail(user);
+          String mailMessage = commonsMail.buildMail(user);
 
           //---- send mail ----
           boolean doneMail = commonsMail.send(mailMessage);
 
           //---- set result of if mail was done,to request scope ----
           request.setAttribute("doneMail", doneMail);
+
+          //---- set user to session scope ----
+          HttpSession session = request.getSession();
+          session.setAttribute("user", user);
 
           //---- forward to "mailDone.jsp" ----
           String path = "/mailDone.jsp";

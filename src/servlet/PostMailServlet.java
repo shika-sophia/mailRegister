@@ -24,7 +24,10 @@ public class PostMailServlet extends HttpServlet {
 
   }//doGet()
 
-
+  //====== <form> action from registerConfirm.jsp ======
+  //@parm mailCode: String メールで送ったmailCode
+  //@parm currentMailCode: String 現在User(Beans)に保存されているmailCode
+  //【註】mailCode と currentMailCodeが違う場合も考える
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
 
@@ -33,14 +36,14 @@ public class PostMailServlet extends HttpServlet {
 
     HttpSession session = request.getSession();
     User user = (User) session.getAttribute("user");
-    String code = user.getCode();
+    String currentMailCode = user.getMailCode();
 
-    if (code.equals(mailCode)) {
+    if (currentMailCode.equals(mailCode)) {
         RegisterDAO dao = new RegisterDAO();
         boolean doneInsert = dao.insertRegister(user);
 
         if (doneInsert) {
-        	//for TempRegister -> codeを渡して その仮登録を削除
+        	//for TempRegister -> mailCodeを渡して その仮登録を削除、本登録
 
             String message = "本登録完了";
             request.setAttribute("message", message);
@@ -53,8 +56,8 @@ public class PostMailServlet extends HttpServlet {
             ; //登録の失敗時はエラーのため処理なし
         }//if doneInsert
 
-    } else { //mailCode と 現在のcodeが違う場合
-    	//for TempRegister mailCode を渡して、そのuserデータを取得
+    } else { //mailCode と 現在のcurrentMailCodeが違う場合
+    	//for TempRegisterにmailCode を渡して、そのuserデータを取得
     	//それを本登録
     }//if mailCode
   }//doPost()
