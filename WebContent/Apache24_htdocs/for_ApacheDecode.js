@@ -27,21 +27,17 @@ function getUrlQuery(){
 
 
 function decodeName(nameCode){
-    var mailDecode = "";
-    const regax = "{/"
-
+    var nameDecode = "";
+    var nameCode4x= format("/%n.{4}/ig", nameCode);
+    nameDecode = String.fromCharCode(nameCode4x.replace('%n', '0x'));
+    return nameDecode;
 }//function decodeName()
 
 function decodeMail(mailCode){
-    var mailDivision = mailCode.split("%m");
-
-    for(mailBit in mailDivision){
-      var mailUnicode = "%u" + mailBit;
-    }
-    var mailDecode = unescape(mailUnicode);
-
+    var mailDecode = "";
+    var mailCode4x= format("/%m.{4}/ig", mailCode);
+    mailDecode = String.fromCharCode(mailCode4x.replace('%m', '0x'));
     return mailDecode;
-
 }//function decodeMail()
 
 
