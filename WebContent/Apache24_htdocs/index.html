@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Honey確認</title>
 <link rel="stylesheet" href="indexStyle.css">
-<script type="text/javascript" src="for_apache.js"></script>
+<script type="text/javascript" src="/for_ApacheDecode.js"></script>
 </head>
 <body>
 <!-- Upper Section -->
@@ -19,9 +19,12 @@
 <!-- JavaScript getQuery -->
 <script type="text/javascript">
     var query = getUrlQuery();
-    var name = query['name'];
-    var pass = query['pass'];
-    var mail = query['mail'];
+    var nameCode = query['name'];
+    var passHidden = query['pass'];
+    var mailCode = query['mail'];
+
+    var nameDecode = decodeName(nameCode);
+    var mailDecode = decodeMail(mailCode);
 </script>
 
 <!-- table Section -->
@@ -32,17 +35,19 @@
 <i>＊ 登録内容確認 ＊　　</i>
   </th></tr>
 <tr><td>
-<form action="C:\\Program Files\\pleiades\\workspace-web\\mailRegister\\src\\servlet\\SendMailServlet" method="get">
-  <p>ユーザー名　：<script type="text/javascript">document.write(name);</script></p>
-  <p>パスワード　：<script type="text/javascript">document.write(pass);</script></p>
-  <p>Mailアドレス：<script type="text/javascript">document.write(mail);</script></p>
+<form action="/mailRegister/SendMailServlet" method="post">
+  <p>ユーザー名　：<script type="text/javascript">document.write(nameDecode);</script></p>
+  <p>パスワード　：<script type="text/javascript">document.write(passHidden);</script></p>
+  <p>Mailアドレス：<script type="text/javascript">document.write(mailDecode);</script></p>
 <br>
 <p>上記の内容で登録しますか？　
-<input type="submit" name="mailRegist" value="承認"></p>
+<button
+    type="submit" name="mailCode"
+    value=mailCode >承認</button></p>
 </form>
 <br>
 <p></p>
-<p><a href="C:\Program Files\pleiades\workspace-web\mailRegister\src\servlet\RegisterServlet">戻る</a></p>
+<p><a href="/mailRegister/RegisterServlet">戻る</a></p>
 
 </td></tr></table>
 </div>
