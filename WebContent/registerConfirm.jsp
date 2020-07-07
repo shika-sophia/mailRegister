@@ -5,7 +5,7 @@
 <% String name = user.getName();%>
 <% String pass = user.getPass();%>
 <% String mail = user.getMail(); %>
-<% String code = user.getCode(); %>
+<% String mailCode = user.getMailCode(); %>//mailCodeとcurrentMailCodeが同じ場合のみ
 
 <% // ---- make passCode with passLength ----
    int passLength = pass.codePointCount(0, pass.length());
@@ -46,7 +46,7 @@
 <br>
 <form action="/mailRegister/PostMailServlet" method="post">
   <p>上記の内容で登録しますか？　
-  <button type="submit" name="mailRegister" value="<%= code %>"></p>
+  <button type="submit" name="mailCode" value="<%= mailCode %>">承認</button></p>
 </form>
 
 <p><a href="/mailRegister/RegisterServlet">戻る</a></p>
