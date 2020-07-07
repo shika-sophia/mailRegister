@@ -7,10 +7,47 @@ public class Encode {
 
   //###### Test Hexadecimal Encode by Unicode / 16進数エンコード ######
   //16進数Unicodeでエンコードすると JavaScript unescpe()で簡単にデコードできる
-  public static void main(String[] args) {
-      String mail = "honey@love";
+  //public static void main(String[] args) {
+      //String mail = "honey@love";
 
-  //public String buildMailCode(String mail){
+  //====== buildNameCode() ======
+  public String buildNameCode(String name){
+      int nameLength = name.length();
+      List<Integer> nameUni = new ArrayList<>(64);
+
+      for (int i = 0; i <= nameLength - 1 ; i++){
+          nameUni.add(name.codePointAt(i));
+      }//for
+
+      StringBuilder nameCodeBuilder = new StringBuilder();
+
+      for (int nameBit : nameUni) {
+          String hexaStr = Integer.toHexString(nameBit);
+          nameCodeBuilder.append("%n").append(hexaStr);
+
+      }//for nameBit
+
+      String nameCode = nameCodeBuilder.toString();
+      return nameCode;
+
+  }//buildNameCode()
+
+  //====== buildPassCode() ======
+  public String buildPassCode(String pass) {
+	  StringBuilder passCodeBuilder = new StringBuilder();
+      int passLength = pass.codePointCount(0, pass.length());
+
+      for (int i = 1; i <= passLength; i++){
+          passCodeBuilder.append("*");
+      }//for
+
+      String passCode = passCodeBuilder.toString();
+      return passCode;
+
+  }//buildPassCode()
+
+  //====== buildMailCode() ======
+  public String buildMailCode(String mail){
       int mailLength = mail.length();
       List<Integer> mailUni = new ArrayList<>(64);
 
@@ -25,18 +62,22 @@ public class Encode {
           mailCodeBuilder.append("%m").append(hexaStr);
 
       }//for mailBit
+
       String mailCode = mailCodeBuilder.toString();
-      String mailDecode = decodeMailCode(mailCode);
+      //String mailDecode = decodeMailCode(mailCode);
 
-      System.out.println("mail: " + mail);
-      System.out.println("mailCode: " + mailCode);
-      System.out.println("mailDecode: " + mailDecode);
+      //System.out.println("mail: " + mail);
+      //System.out.println("mailCode: " + mailCode);
+      //System.out.println("mailDecode: " + mailDecode);
 
-      //return mailCode;
+      return mailCode;
 
   }//buildMailCode() or main()
 
-  private static String decodeMailCode (String mailCode) {
+
+  //====== for Test Section======
+  //====== Decode Test ======
+  /*private static String decodeMailCode (String mailCode) {
       StringBuilder mailDecodeBuilder = new StringBuilder();
       String[] mailCodeDivision = mailCode.substring(2).split("%m");
       int mailCodeDivisionLength = mailCodeDivision.length;
@@ -52,6 +93,7 @@ public class Encode {
       return mailDecode;
 
   }//decodeMailUni()
+  */
 }//class
 
 /*
