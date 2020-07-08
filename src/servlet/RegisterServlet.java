@@ -11,10 +11,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import model.CommonsMail;
+import model.Encode;
 import model.RegisterLogic;
 import model.TempRegisterLogic;
 import model.User;
-import test.Encode;
 
 @WebServlet("/RegisterServlet")
 public class RegisterServlet extends HttpServlet {
@@ -94,6 +94,7 @@ public class RegisterServlet extends HttpServlet {
           boolean doneMail = commonsMail.send(mailMessage);
 
           //---- set result of if mail was done,to request scope ----
+          request.setAttribute("doneTempRegister", doneTempRegister);
           request.setAttribute("doneMail", doneMail);
 
           //---- set user to session scope ----
