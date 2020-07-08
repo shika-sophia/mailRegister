@@ -76,28 +76,42 @@ public class Encode {
   }//buildMailCode() or main()
 
 
-  //====== for Test Section======
-  //====== Decode Test ======
-  /*private static String decodeMailCode (String mailCode) {
+  //====== Decode Section ======
+  public String decodeNameCode (String nameCode) {
+      StringBuilder nameDecodeBuilder = new StringBuilder();
+      String[] nameCodeDivision = nameCode.substring(2).split("%m");
+
+      for (String hexaStr : nameCodeDivision) {
+          int hexaCode = Integer.parseInt(hexaStr, 16);
+          char character = (char)hexaCode;
+          nameDecodeBuilder.append(character);
+      }//for hexaStr
+
+      String nameDecode = nameDecodeBuilder.toString();
+      return nameDecode;
+
+  }//decodeNameCode()
+
+
+  public String decodeMailCode (String mailCode) {
       StringBuilder mailDecodeBuilder = new StringBuilder();
       String[] mailCodeDivision = mailCode.substring(2).split("%m");
-      int mailCodeDivisionLength = mailCodeDivision.length;
-
 
       for (String hexaStr : mailCodeDivision) {
           int hexaCode = Integer.parseInt(hexaStr, 16);
           char character = (char)hexaCode;
           mailDecodeBuilder.append(character);
-      }//for mailBit
+      }//for hexaStr
 
       String mailDecode = mailDecodeBuilder.toString();
       return mailDecode;
 
-  }//decodeMailUni()
-  */
+  }//decodeMailCode()
+
 }//class
 
 /*
+//====== for Test Section======
 //====== Test Result of Hexadecimal Encorde by Unicode ======
 mail: honey@love
 mailCode: %m68%m6f%m6e%m65%m79%m40%m6c%m6f%m76%m65
