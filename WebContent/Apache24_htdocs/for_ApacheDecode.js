@@ -1,5 +1,5 @@
 /**
- * put to Apache24/htdocs/for_ApacheDecode.js
+ * put this page to Apache24/htdocs/for_ApacheDecode.js by hand copy-paste
  */
 
 
@@ -27,16 +27,20 @@ function getUrlQuery(){
 
 
 function decodeName(nameCode){
-    var nameDecode = "";
-    var nameCode4x= format("/%n.{4}/ig", nameCode);
-    nameDecode = String.fromCharCode(nameCode4x.replace('%n', '0x'));
+    var nameDecode = '';
+    var division = nameCode.split('%');
+    for ( i = 0; i < division.length; i++){
+        nameDecode += String.fromCharCode(division[i].replace('n', '0x'));
+    }
     return nameDecode;
 }//function decodeName()
 
 function decodeMail(mailCode){
-    var mailDecode = "";
-    var mailCode4x= format("/%m.{4}/ig", mailCode);
-    mailDecode = String.fromCharCode(mailCode4x.replace('%m', '0x'));
+  var mailDecode = '';
+    var division = mailCode.split('%');
+    for ( i = 0; i < division.length; i++){
+        mailDecode += String.fromCharCode(division[i].replace('m', '0x'));
+    }
     return mailDecode;
 }//function decodeMail()
 
