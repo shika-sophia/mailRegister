@@ -2,13 +2,15 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Encode {
 
   //###### Test Hexadecimal Encode by Unicode / 16進数エンコード ######
   //16進数Unicodeでエンコードすると JavaScript unescpe()で簡単にデコードできる
   //public static void main(String[] args) {
-      //String mail = "honey@love";
+  //    String name = "honeySea";
 
   //====== buildNameCode() ======
   public String buildNameCode(String name){
@@ -23,8 +25,8 @@ public class Encode {
 
       for (int nameBit : nameUni) {
           String hexaStr = Integer.toHexString(nameBit);
-
-          nameCodeBuilder.append("%n").append(hexaStr);
+          String hexaStr4x = regexFomatter(hexaStr);
+          nameCodeBuilder.append("%n").append(hexaStr4x);
 
       }//for nameBit
 
@@ -33,7 +35,8 @@ public class Encode {
 
   }//buildNameCode()
 
-  //====== buildPassCode() ======
+
+//====== buildPassCode() ======
   public String buildPassCode(String pass) {
       StringBuilder passCodeBuilder = new StringBuilder();
       int passLength = pass.codePointCount(0, pass.length());
@@ -60,7 +63,8 @@ public class Encode {
 
       for (int mailBit : mailUni) {
           String hexaStr = Integer.toHexString(mailBit);
-          mailCodeBuilder.append("%m").append(hexaStr);
+          String hexaStr4x = regexFomatter(hexaStr);
+          mailCodeBuilder.append("%m").append(hexaStr4x);
 
       }//for mailBit
 
@@ -74,6 +78,34 @@ public class Encode {
       return mailCode;
 
   }//buildMailCode() or main()
+
+
+  //====== regexFormatter() for buildNameCode() and buildMailCode()=====
+  private String regexFomatter(String hexaStr) {
+      String hexaStr4x = "";
+
+      Pattern patternMono = Pattern.compile("[a-f0-9]{1}");
+      Pattern patternDual = Pattern.compile("[a-f0-9]{2}");
+      Pattern patternTri = Pattern.compile("[a-f0-9]{3}");
+
+      Matcher matcherMono = patternMono.matcher(hexaStr);
+      Matcher matcherDual = patternDual.matcher(hexaStr);
+      Matcher matcherTri = patternTri.matcher(hexaStr);
+
+      if(matcherTri.find()) {
+          hexaStr4x = "0" + hexaStr;
+
+      } else if (matcherDual.find()) {
+          hexaStr4x = "00" + hexaStr;
+
+      } else if (matcherMono.find()) {
+          hexaStr4x = "000" + hexaStr;
+      }
+
+      //System.out.print(hexaStr4x + " ");
+      //Result: 0068 006f 006e 0065 0079 0053 0065 0061
+    return hexaStr4x;
+}
 
 
   //====== Decode Section ======

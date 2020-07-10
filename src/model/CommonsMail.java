@@ -58,7 +58,7 @@ public class CommonsMail {
       // ---- build mailMessage ----
       StringBuilder mailMessageBuilder = new StringBuilder();
           mailMessageBuilder.append("<a href=\"").append(buildURL.toString());
-          mailMessageBuilder.append("\">").append("http://localhost:80/index.html");
+          mailMessageBuilder.append("\">").append("buildURL.toString()");
           mailMessageBuilder.append("</a>");
 
           String mailMessage = mailMessageBuilder.toString();
