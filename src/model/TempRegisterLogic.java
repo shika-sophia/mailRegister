@@ -1,48 +1,49 @@
+/**
+ * @title TempRegisterLogic
+ * @author Sho & Shika
+ * @see TempRegisterDAO
+ * @date first 2020-07-08 / last 2020-07-12
+ *
+ * @class Logic for Temporary Register; insert, delete, select to Database temp_tb
+ * */
+
 package model;
 
 import DAO.TempRegisterDAO;
 
 public class TempRegisterLogic {
+    TempRegisterDAO dao = new TempRegisterDAO();
 
-	public boolean executeTempRegister(User user) {
+    //====== get nowDateTime and call DAO for Temporary Register ======
+    public boolean executeTempRegister(User user) {
 
-		NowDateTime ndt = new NowDateTime();
-		String nowDateTime = ndt.nowDateTime();
+        NowDateTime ndt = new NowDateTime();
+        String nowDateTime = ndt.nowDateTime();
 
-		TempRegisterDAO dao = new TempRegisterDAO();
-		boolean doneTempRegister = dao.doneTempRegister(user,nowDateTime);
+        boolean doneTempRegister = dao.doneTempRegister(user,nowDateTime);
 
-		return doneTempRegister;
-	}
-}
+        return doneTempRegister;
+    }//executeTempRegister()
 
-	/*
-	List<String> mailDB = dao.tempRegister();
 
-	boolean existMail = existMail(user, mailDB);
+    //====== call DAO for DELETE Temporary when Indeed Register ======
+    public boolean tempDelete(String mailCode) {
 
-	return existMail;
+        boolean tempDelete = dao.tempDelete(mailCode);
 
-}
+        return tempDelete;
+    }//tempDelete()
 
-private boolean existMail(User user, List<String> mailDB) {
 
-	boolean existMail = false;
+    public User getPastUser(String mailCode) {
 
-	String mail = user.getMailCode();
+        User user = dao.getPastUser(mailCode);
 
-	for(String str : mailDB) {
-      if (mail.equals(str)) {
-          existMail = true;
-          break;
-      } else {
-          existMail = false;
-      }
-    }// for
+        return user;
+    }
+}//class
 
-        return existMail;
-}
-*/
+
 
 /*
 select * from temp;
