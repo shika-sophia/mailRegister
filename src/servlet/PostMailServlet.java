@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import DAO.RegisterDAO;
+import model.TempRegisterLogic;
 import model.User;
 
 
@@ -38,28 +39,41 @@ public class PostMailServlet extends HttpServlet {
     User user = (User) session.getAttribute("user");
     String currentMailCode = user.getMailCode();
 
-    if (currentMailCode.equals(mailCode)) {
-        RegisterDAO dao = new RegisterDAO();
-        boolean doneInsert = dao.insertRegister(user);
+    TempRegisterLogic temp = new TempRegisterLogic();
+    RegisterDAO dao = new RegisterDAO();
 
-        if (doneInsert) {
-            //for TempRegister -> mailCodeを渡して その仮登録を削除、本登録
+    //---- Loop for Indeed Register ----
+    indeed:
+    for( ; ; ) {
+        if (currentMailCode.equals(mailCode)) {
 
-            String message = "本登録完了";
-            request.setAttribute("message", message);
+             boolean doneInsert = dao.insertRegister(user);
 
-            String path = "/registerDone.jsp";
-            RequestDispatcher dis = request.getRequestDispatcher(path);
-            dis.forward(request, response);
+            if (doneInsert) {
+                //for TempRegister -> mailCodeを渡して その仮登録を削除、本登録
+                boolean tempDelete = temp.tempDelete(mailCode);
 
-        } else {
-            ; //登録の失敗時はエラーのため処理なし
-        }//if doneInsert
+                String message = "本登録完了";
+                request.setAttribute("message", message);
+                request.setAttribute("tempDelete", tempDelete);
 
-    } else { //mailCode と 現在のcurrentMailCodeが違う場合
-        //for TempRegisterにmailCode を渡して、そのuserデータを取得
-        //それを本登録
-    }//if mailCode
+                String path = "/registerDone.jsp";
+                RequestDispatcher dis = request.getRequestDispatcher(path);
+                dis.forward(request, response);
+
+            } else {
+                break indeed; //登録の失敗時はエラーのため処理なし
+
+            }//if doneInsert
+
+        } else { //mailCode と 現在のcurrentMailCodeが違う場合
+            //for TempRegisterにmailCode を渡して、そのuserデータを取得
+            user = temp.getPastUser(mailCode);//それを本登録
+            currentMailCode = mailCode;
+        }//if mailCode
+
+    }//for indeed
+
   }//doPost()
 
 }//class
