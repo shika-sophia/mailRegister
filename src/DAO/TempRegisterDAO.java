@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import model.User;
 
@@ -152,6 +154,90 @@ public class TempRegisterDAO {
 
     }//getPastUser()
 
+    //====== SELECT over24h() and set it to List ======
+    public List<String> selectOver24h(String over24hDateTime) {
+        Connection conn = null;
+        List<String> over24hList = new ArrayList<>();
+
+        try {
+            conn = DriverManager.getConnection(JDBC_URL,DB_USER,DB_PASS);
+
+            //SELECT文の準備
+            String sql = "SELECT mail FROM temp WHERE nowDateTime > ?";
+
+            //SQL文を送る
+            PreparedStatement pStmt = conn.prepareStatement(sql);
+            pStmt.setString(1, over24hDateTime);
+
+            //SQL文を実行して結果を取得する
+            ResultSet rs = pStmt.executeQuery();
+
+            while(rs.next()) {
+                over24hList.add(rs.getString("mail"));
+            }
+
+
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+            return null;
+
+        } finally {
+
+            try {
+                conn.close();
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }//finally
+
+        return over24hList;
+
+    }//getPastUser()
+
+
+    //======= DELETE over24h rows WHERE mail = over24hList ======
+    public boolean tempDeleteOver24h(List<String> over24hList) {
+         Connection conn = null;
+
+         try {
+             conn =DriverManager.getConnection(JDBC_URL,DB_USER,DB_PASS);
+
+             for (String over24hMail : over24hList) {
+                 //DELETE文の準備
+                 String sql = "DELETE FROM temp WHERE mail = ?";
+
+                 //SQL文を送る
+                 PreparedStatement pStmt = conn.prepareStatement(sql);
+
+                 //DELETE文の?に値を設定
+                 pStmt.setString(1,over24hMail);
+
+                 //DELETE文を実行
+                 int rs = pStmt.executeUpdate();
+
+                 if(rs != 1) {
+                     return false;
+                 }
+             }//for over24hMail
+
+         } catch (SQLException e) {
+             e.printStackTrace();
+             return false;
+         }finally {
+             try {
+                 conn.close();
+             } catch (SQLException e) {
+                 e.printStackTrace();
+                 return false;
+             }
+         }//finally
+
+         return true;
+
+     }//tempDeleteOver24h()
 
 
 }//class
