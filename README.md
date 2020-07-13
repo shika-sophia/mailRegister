@@ -3,7 +3,7 @@ Functions of sending mail and accepting response by URL for user-register of mat
 
 ◆Set up
 ＊DataBase
-    see refernse "【資料】mail機能"
+    reference "【資料】mail機能"
     
 ＊How to Start
     0. DownLoad war-file and open it in Eclipse.
